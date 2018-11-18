@@ -10,11 +10,13 @@ However, don't put large txt files, please.
 
 This repository is created to show that bot does not store your passwords locally, and also you can make your commits to improve it.
 
-# Future
+# Google Authenticator
 
-I am going to add Google authenticator feature, so you won't need to enter your master password,
+Google authenticator feature has been added, so you won't need to enter your master password every time,
 but instead, you'll be able to use Google authenticator app to unlock your passwords.
 
+
+Download it here:
 App store link https://itunes.apple.com/gb/app/google-authenticator/id388497605?mt=8
 <br>
 Android link https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB
