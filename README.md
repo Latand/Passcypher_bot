@@ -8,7 +8,7 @@ This bot will help you <b>encrypt</b> your <b>passwords</b> to store them in <b>
 Also you can <b>encrypt and decrypt</b> your <b>txt</b> files. 
 However, don't put large txt files, please. 
 
-This repository is created to show, that bot does not store your passwords locally, also you can add your commits.
+This repository is created to show that bot does not store your passwords locally, and also you can make your commits to improve it.
 
 # Future
 
