@@ -16,7 +16,7 @@ Google authenticator feature has been added, so you won't need to enter your mas
 but instead, you'll be able to use Google authenticator app to unlock your passwords.
 
 
-Download it here:
+Download it here:<br>
 App store link https://itunes.apple.com/gb/app/google-authenticator/id388497605?mt=8
 <br>
 Android link https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB
