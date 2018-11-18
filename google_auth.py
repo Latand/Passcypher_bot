@@ -5,7 +5,7 @@ from sql import sql
 
 
 def create_google_auth(chat_id: int):
-    code = pyotp.random_base32()
+    code = pyotp.random_base32()[:15]
     link = f"otpauth://totp/{chat_id}%20%40%20Passcypher?secret={code}"
     qr = pyqrcode.create(link, "L")
     name = f"code_{chat_id}.png"
