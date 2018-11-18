@@ -26,4 +26,4 @@ I've hidden 3 files, which are:
 
 2. File with access info
 
-3. File with functions containing a small key which enables an extra level of security by a master password.
+3. File with functions containing a small key which enables the extra level of security by a master password.
