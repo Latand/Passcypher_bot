@@ -1,0 +1,282 @@
+import asyncio
+import logging
+import config
+import aiogram
+from inline_button import inlinemarkups
+from aiogram import Bot, types
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils.executor import start_webhook
+from languages import *
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.utils.exceptions import Throttled
+from messages import texts as imported_text
+from states import ALL_STATES as STATE
+from encode import encode
+from decode import decode
+import re
+from messages import Other_Texts, allowed_chars
+
+WEBHOOK_PATH = f'/{config.TOKEN}'
+WEBHOOK_URL = f"https://{config.WEBHOOK_HOST}{WEBHOOK_PATH}/"
+
+# webserver settings
+WEBAPP_HOST = '127.0.0.1'  # or ip
+WEBAPP_PORT = config.PORT
+
+
+logging.basicConfig(level=logging.INFO)
+
+loop = asyncio.get_event_loop()
+bot = Bot(token=config.TOKEN, loop=loop, parse_mode="HTML")
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage)
+
+
+@dp.message_handler(commands=["start"])
+async def starting(message: types.Message):
+    chat_id = message.chat.id
+    await bot.send_message(chat_id,
+                           Other_Texts.WELCOME_MESSAGE.format(message.from_user.first_name),
+                           reply_markup=inlinemarkups(
+                               text=["English", "Русский"],
+                               callback=["language en start", "language ru start"]
+                           ))
+
+
+@dp.callback_query_handler(func=lambda call: "language" in call.data)
+async def change_language(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    try:
+        await bot.edit_message_reply_markup(chat_id, call.message.message_id, reply_markup=None)
+    except aiogram.utils.exceptions.MessageNotModified:
+        pass
+    language = call.data.split()[1]
+    set_language(chat_id, language)
+    lang = get_language(chat_id)
+    await bot.send_message(chat_id, imported_text[lang]["changed"])
+    await asyncio.sleep(1)
+    if "start" in call.data:
+        text = imported_text[lang]["describe en 1"]
+        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+            text=[imported_text[lang]["next"]],
+            callback=["describe_en 2"]
+        ))
+        text = imported_text[lang]["describe de 1"]
+        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+            text=[imported_text[lang]["next"]],
+            callback=["describe_de 2"]
+        ))
+
+
+@dp.message_handler(commands=["info"])
+async def info(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    text = imported_text[lang]["describe en 1"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["next"]],
+        callback=["describe_en 2"]
+    ))
+    text = imported_text[lang]["describe de 1"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["next"]],
+        callback=["describe_de 2"]
+    ))
+
+
+@dp.callback_query_handler(func=lambda call: "describe_en" in call.data)
+async def next_page(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    page = int(call.data.split()[1])
+    buts, calls = [], []
+    if page > 1:
+        buts.append(imported_text[lang]["prev"])
+        calls.append(f"describe_en {page-1}")
+    if page < 4:
+        buts.append(imported_text[lang]["next"])
+        calls.append(f"describe_en {page+1}")
+    await bot.edit_message_text(chat_id=chat_id, text=imported_text[lang][f"describe en {page}"].format(
+        allowed_chars=allowed_chars),
+                                message_id=call.message.message_id,
+                                reply_markup=inlinemarkups(
+                                    text=buts,
+                                    callback=calls,
+                                    align=[len(buts)]
+                                ))
+
+
+@dp.callback_query_handler(func=lambda call: "describe_de" in call.data)
+async def next_page(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    page = int(call.data.split()[1])
+    buts, calls = [], []
+    if page > 1:
+        buts.append(imported_text[lang]["prev"])
+        calls.append(f"describe_de {page-1}")
+    if page < 3:
+        buts.append(imported_text[lang]["next"])
+        calls.append(f"describe_de {page+1}")
+    await bot.edit_message_text(chat_id=chat_id, text=imported_text[lang][f"describe de {page}"],
+                                message_id=call.message.message_id,
+                                reply_markup=inlinemarkups(
+                                    text=buts,
+                                    callback=calls,
+                                    align=[len(buts)]
+                                ))
+
+
+@dp.message_handler(commands=["set_language"])
+async def lang_choose(message: types.Message):
+    chat_id = message.chat.id
+    await bot.send_message(chat_id,
+                           Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
+                           reply_markup=inlinemarkups(
+                               text=["English", "Русский"],
+                               callback=["language en", "language ru"]
+                           ))
+
+
+@dp.message_handler(commands=["encode", "e"])
+async def encode_start(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    await bot.send_message(chat_id, imported_text[lang]["encode"])
+    await dp.current_state().set_state(STATE.MASTER_ENCODE)
+
+
+@dp.message_handler(state=STATE.MASTER_ENCODE)
+async def encoded(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    await dp.current_state().update_data(master_pass=message.text)
+    await dp.current_state().set_state(STATE.PASSWORD_ENCODE)
+    await bot.send_message(chat_id, imported_text[lang]["password"].format(allowed_chars=allowed_chars))
+
+
+@dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.TEXT)
+async def encoded(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    master_pass = (await dp.current_state().get_data())["master_pass"]
+    if len(message.text) > 400:
+        await bot.send_message(chat_id, imported_text[lang]["large"])
+        return
+    text, code = encode(message.text.replace("\n", "\\n"), master_pass)
+    await bot.send_message(chat_id, imported_text[lang]["result_encode"].format(
+        passw=text, code=code
+    ))
+    await dp.current_state().reset_state()
+
+
+@dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.DOCUMENT)
+async def encoded(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    master_pass = (await dp.current_state().get_data())["master_pass"]
+    file_id = message.document.file_id
+    await bot.download_file_by_id(file_id, "to_encode.txt")
+    with open("to_encode.txt", "r") as file:
+        try:
+            text = file.read().replace("\n", "\\n")
+        except UnicodeDecodeError:
+            await bot.send_message(chat_id, "INVALID FILE")
+            await dp.current_state().reset_state()
+            return
+
+    text, code = encode(text, master_pass)
+    with open("encoded.txt", "a") as file:
+        file.write(imported_text[lang]["result_encode_doc"].format(
+            passw=text, code=code))
+    await bot.send_document(chat_id, open("encoded.txt", "rb"))
+
+    with open("encoded.txt", "w") as file:
+        file.write(" ")
+
+    with open("to_encode.txt", "w") as file:
+        file.write(" ")
+    await dp.current_state().reset_state()
+
+
+@dp.message_handler(regexp="#encoded_pass")
+async def decode_start(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    enc = message.text.replace("\n", " ")
+    encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
+    code = re.findall("#key: '(.*)'", enc)[0]
+    await dp.current_state().update_data(password=encoded, code=code)
+    await bot.send_message(chat_id, imported_text[lang]["encode"])
+    await dp.current_state().set_state(STATE.MASTER_DECODE)
+
+
+@dp.message_handler(content_types=types.ContentType.DOCUMENT)
+async def decode_start(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    file_id = message.document.file_id
+    await bot.download_file_by_id(file_id, "to_decode.txt")
+    with open("to_decode.txt", "r") as file:
+        try:
+            text = file.read()
+        except UnicodeDecodeError:
+            await bot.send_message(chat_id, "INVALID FILE")
+            return
+    expression = f"{Other_Texts.START}(.*){Other_Texts.END}"
+    try:
+        extract_encoded = re.findall(expression, text)[0]
+    except IndexError:
+        await bot.send_message(chat_id, "Error. Wrong file")
+        return
+    expression = f"{Other_Texts.END}(.*){Other_Texts.END_CODE}"
+    code = re.findall(expression, text)[0]
+    await dp.current_state().update_data(password=extract_encoded, code=code, doc=True)
+    await bot.send_message(chat_id, imported_text[lang]["encode"])
+    await dp.current_state().set_state(STATE.MASTER_DECODE)
+
+
+@dp.message_handler(state=STATE.MASTER_DECODE)
+async def decode_1(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    en_password = (await dp.current_state().get_data())["password"]
+    code = (await dp.current_state().get_data())["code"]
+    password = (decode(message.text, en_password, code)).replace("\\n", "\n")
+
+    if (await dp.current_state().get_data()).get("doc"):
+
+        with open("decoded.txt", "w") as file:
+            file.write(password.replace("\\n", "\n"))
+        await bot.send_document(chat_id, open("decoded.txt", "rb"))
+        with open("decoded.txt", "w") as file:
+            file.write(" ")
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["decoded_result"].format(
+            password=password
+        ))
+    await dp.current_state().reset_state()
+
+
+@dp.message_handler(content_types=types.ContentType.TEXT)
+async def unknown(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    await bot.send_message(chat_id, imported_text[lang]["OOPS"])
+
+
+async def throttling_message(user):
+    try:
+        await dp.throttle(str(user), rate=1)
+    except Throttled:
+        await bot.send_message(user, "Too fast. Try again in 1 sec")
+        return True
+
+
+async def on_startup(dp):
+    return await bot.set_webhook(url=WEBHOOK_URL)
+
+
+if __name__ == '__main__':
+    start_webhook(dispatcher=dp, webhook_path="",
+                  skip_updates=True, host=WEBAPP_HOST, port=WEBAPP_PORT, on_startup=on_startup)
