@@ -13,6 +13,9 @@ class ALL_STATES(Helper):
     CODE_DECODE = Item()
     KEY_DECODE = Item()
 
+    G_AUTH_1 = Item()
+    G_AUTH_2 = Item()
+
 
 
 

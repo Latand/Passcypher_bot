@@ -70,9 +70,48 @@ Decoding:
 
 Start: /encode
 """,
-        "encode": """Enter your master password you remember well.
+        "encode master": """
+Please enter your master password.
+You can make everything faster with Google Authenticator! 
+Press /g_auth_info
+
 ⚠️<b>YOU MUST DELETE THE MESSAGES WITH YOUR PASSWORD FROM THE BOT</b>
 """,
+        "g_auth info": """To encrypt your phrase/file you need to enter a master password each time you want to encrypt or decrypt, or\
+ you can enable <b>Google Authenticator</b> and enter one-time codes from your phone <b>only to decrypt</b>\
+  your passwords. \
+(Master password will be kept in database then) 
+
+Please make your choice (you can change it later with command /reset_google_auth
+        """,
+
+        "enable_g_auth": "Setup",
+        "g_auth decode": "Enter the code from the app",
+        "google_auth setup 1": """
+Please ensure you have the app installed.
+<a href= "https://itunes.apple.com/gb/app/google-authenticator/id388497605?mt=8">IOS</a>
+<a href= "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB">Android</a>
+
+Press continue when you done. After you receive the code - write it down somewhere.
+""",
+        "continue": "Continue",
+        "google_auth setup 2": """
+You will receive a recovery code and a link below.
+<b>IT WILL BE AUTOMATICALLY DELETED AFTER YOU CONFIRM</b>
+""",
+        "google_auth setup 3": "Please enter the code from the Google Authenticator\n"
+                               "Pay attention that it updates every 30 sec.",
+        "confirm yes": "Confirmation successful, you can proceed. /encode",
+        "confirm no": "Confirmation unsuccessful, please try again",
+        "invalid code": "Code is incorrect, try again or /cancel",
+        "already enabled": "You have already received the Google Authenticator code",
+
+        "reset gauth": "Here you can enable and disable your Google Authenticator settings",
+        "turn on": "Turn on",
+        "turn off": "Turn off",
+        "not set": "Google Authenticator is not set for you. Press /g_auth_info",
+        "done": "That is done",
+
         "password": """Enter phrase you want to encrypt.
 It should be under 400 characters, for best results there should be only characters from this list:
 <pre>{allowed_chars} </pre>
@@ -89,6 +128,7 @@ Key:
 
 #key: '<code>{code}</code>'
 
+Hint: {hint}
 Save this message wherever you want and forward it to the bot should you need to decode it.
 """,
         "result_encode_doc":
@@ -103,6 +143,7 @@ ENCRYPTION ENDS HERE
 CODE
 {code}
 ----------------------------
+Hint: {hint}
 """,
         "entered_master": """Enter your encrypted password.
 """,
@@ -129,7 +170,9 @@ It should look like that:
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
         "large": "Error has occurred... Too long phrase. Try to enter a phrase under 400 characters.",
         "bad_char": "You have restricted character in phrase.\n"
-                    "Please try again."
+                    "Please try again.",
+        "g_auth": "Use Google auth",
+        "no_g_auth": "Use Master password"
 
     },
     "ru": {
@@ -209,9 +252,48 @@ It should look like that:
 
 Начать: /encode
 """,
-        "encode": """Введите свой мастер пароль, который вы хорошо помните.
+        "encode master": """Введите свой мастер пароль, который вы хорошо помните.
+Ускорьте процесс с помощью Google Authenticator! 
+
+Нажми для подробной информации /g_auth_info
+
 ⚠️<b>ВЫ ДОЛЖНЫ УДАЛИТЬ СООБЩЕНИЕ С ПАРОЛЕМ ИЗ ПЕРЕПИСКИ</b>
 """,
+
+        "g_auth info": """Чтобы зашифровать файл/пароль вы должны вводить мастер пароль каждый раз, чтобы зашифровать\
+ или расшифровать. 
+Но вы можете включить Google Authenticator и вводить одноразовые пароли со своего телефона \
+<b>только дляр расшифровки</b> своих паролей (Но тогда мастер пароль будет храниться в нашей базе данных
+
+Сделайте свой выбор (вы сможете позже отключать эту функцию с помощью команды /reset_google_auth )
+        """,
+        "enable_g_auth": "Начать настройку",
+        "g_auth decode": "Введите код из приложения",
+        "google_auth setup 1": """
+Для начала убедитесь, что у вас установлено приложение.
+<a href= "https://itunes.apple.com/gb/app/google-authenticator/id388497605?mt=8">IOS</a>
+<a href= "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB">Android</a>
+
+Нажмите продолжить когда закончите, после того как получите код - запишите его где нибудь.""",
+        "continue": "Продолжить",
+        "google_auth setup 2": """
+Вы получите код для восстановления ниже .
+<b>СООБЩЕНИЕ БУДЕТ УДАЛЕНО ПОСЛЕ ПОДТВЕРЖДЕНИЯ</b>
+""",
+        "google_auth setup 3": "Пожалуйста введите код который вы получили в Google Authenticator\n"
+                               "Обратите внимание, что код обновляется каждые 30 сек",
+        "confirm yes": "Успешно подтверждено, можете продолжать. /encode",
+        "confirm no": "Код не был подтвержден, попробуйте снова",
+        "invalid code": "Код неверный, попробуйте снова или отмените /cancel",
+
+        "already enabled": "Вы уже настраивали Google Authenticator",
+
+        "reset gauth": "Тут вы можете включать и выключать настройки Google Authenticator",
+        "turn on": "Включить",
+        "turn off": "Выключить",
+        "not set": "Вы еще не настраивали Google Authenticator. Нажмите /g_auth_info",
+        "done": "Готово",
+
         "password": """Введите пароль, который хотите зашифровать.
 Он должен быть длиной до 400 символов и рекомендуется для лучшего результата использовать символы только из этого списка:
 <pre>{allowed_chars} </pre>
@@ -228,6 +310,8 @@ It should look like that:
 
 
 Сохраните это сообщение где угодно и перешлите боту когда захотите расшифровать свой пароль.
+
+Подсказка: {hint}
 """,
         "result_encode_doc":
         """
@@ -241,6 +325,8 @@ ENCRYPTION ENDS HERE
 CODE
 {code}
 ----------------------------
+
+Подсказка: {hint}
 """,
         "entered_master": """Введите ваш зашифрованный пароль.
 """,

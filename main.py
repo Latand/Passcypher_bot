@@ -15,6 +15,8 @@ from encode import encode
 from decode import decode
 import re
 from messages import Other_Texts, allowed_chars
+from google_auth import *
+import binascii
 
 WEBHOOK_PATH = f'/{config.TOKEN}'
 WEBHOOK_URL = f"https://{config.WEBHOOK_HOST}{WEBHOOK_PATH}/"
@@ -22,7 +24,6 @@ WEBHOOK_URL = f"https://{config.WEBHOOK_HOST}{WEBHOOK_PATH}/"
 # webserver settings
 WEBAPP_HOST = '127.0.0.1'  # or ip
 WEBAPP_PORT = config.PORT
-
 
 logging.basicConfig(level=logging.INFO)
 
@@ -84,6 +85,118 @@ async def info(message: types.Message):
     ))
 
 
+# SETUP GOOGLE AUTH ----------------------------------------------------------------------------------------
+
+
+@dp.message_handler(commands=["g_auth_info"])
+async def info(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    text = imported_text[lang]["g_auth info"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["enable_g_auth"]],
+        callback=["g_auth_setup"]))
+
+
+@dp.message_handler(commands=["reset_google_auth"])
+async def info(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    if has_g_auth(chat_id):
+        if enabled_g_auth(chat_id):
+            await bot.send_message(chat_id, imported_text[lang]["reset gauth"], reply_markup=inlinemarkups(
+                text=[imported_text[lang]["turn off"]],
+                callback=["turn 0"]))
+        else:
+
+            await bot.send_message(chat_id, imported_text[lang]["reset gauth"], reply_markup=inlinemarkups(
+                text=[imported_text[lang]["turn on"]],
+                callback=["turn 1"]))
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["not set"])
+
+
+@dp.callback_query_handler(func=lambda call: "turn" in call.data)
+async def g_auth(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    sql.update(table="users", enabled=call.data.split()[1], condition={"chat_id": chat_id})
+    try:
+        await bot.edit_message_text(text=imported_text[lang]["done"], chat_id=chat_id,
+                                    message_id=call.message.message_id)
+    except Exception:
+        pass
+
+
+@dp.callback_query_handler(func=lambda call: "g_auth_setup" == call.data)
+async def g_auth(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    try:
+        await bot.edit_message_reply_markup(chat_id, message_id=call.message.message_id)
+    except Exception:
+        pass
+
+    if has_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["already enabled"])
+        return
+
+    await bot.send_message(chat_id, imported_text[lang]["google_auth setup 1"], reply_markup=inlinemarkups(
+        text=[imported_text[lang]["continue"]],
+        callback=["continue"]))
+    await dp.current_state().set_state(STATE.G_AUTH_1)
+
+
+@dp.callback_query_handler(state=STATE.G_AUTH_1)
+async def g_auth(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    try:
+        await bot.edit_message_reply_markup(chat_id, message_id=call.message.message_id)
+    except Exception:
+        pass
+    if has_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["already enabled"])
+        return
+
+    code, link, qr_code = create_google_auth(chat_id)
+    await bot.send_message(chat_id, imported_text[lang]["google_auth setup 2"])
+    message_1 = (await bot.send_message(chat_id, code)).message_id
+
+    message_2 = (await bot.send_photo(chat_id, qr_code,
+                                      f"{link}")).message_id
+    await bot.send_message(chat_id, imported_text[lang]["google_auth setup 3"])
+
+    await dp.current_state().update_data(message_1=message_1, message_2=message_2)
+    await dp.current_state().set_state(STATE.G_AUTH_2)
+
+
+@dp.message_handler(state=STATE.G_AUTH_2)
+async def g_auth(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    try:
+        ver = verify(chat_id, message.text)
+    except binascii.Error:
+        await bot.send_message(chat_id, imported_text[lang]["invalid code"])
+        return
+    if ver:
+        message_1 = (await dp.current_state().get_data()).get("message_1")
+        message_2 = (await dp.current_state().get_data()).get("message_2")
+        await bot.delete_message(chat_id, message_1)
+        await bot.delete_message(chat_id, message_2)
+        await bot.send_message(chat_id, imported_text[lang]["confirm yes"])
+        await dp.current_state().reset_state()
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["confirm no"])
+        return
+
+
+# SETUP GOOGLE AUTH ----------------------------------------------------------------------------------------
+
+# DESCRIBE BOT ---------------------------------------------------------------------------------------------
+
+
 @dp.callback_query_handler(func=lambda call: "describe_en" in call.data)
 async def next_page(call: types.CallbackQuery):
     chat_id = call.message.chat.id
@@ -127,6 +240,9 @@ async def next_page(call: types.CallbackQuery):
                                 ))
 
 
+# DESCRIBE BOT ---------------------------------------------------------------------------------------------
+
+
 @dp.message_handler(commands=["set_language"])
 async def lang_choose(message: types.Message):
     chat_id = message.chat.id
@@ -138,18 +254,31 @@ async def lang_choose(message: types.Message):
                            ))
 
 
+# ENCODE PROCESS---------------------------------------------------------------------------------------------
 @dp.message_handler(commands=["encode", "e"])
 async def encode_start(message: types.Message):
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    await bot.send_message(chat_id, imported_text[lang]["encode"])
-    await dp.current_state().set_state(STATE.MASTER_ENCODE)
+    if not enabled_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["encode master"])
+        await dp.current_state().set_state(STATE.MASTER_ENCODE)
+    else:
+        await dp.current_state().update_data(master_pass=get_google_auth(chat_id))
+        await dp.current_state().set_state(STATE.PASSWORD_ENCODE)
+        await bot.send_message(chat_id, imported_text[lang]["password"].format(allowed_chars=allowed_chars))
 
 
 @dp.message_handler(state=STATE.MASTER_ENCODE)
 async def encoded(message: types.Message):
     chat_id = message.chat.id
     lang = get_language(chat_id)
+    if "/g_auth_info" == message.text:
+        text = imported_text[lang]["g_auth info"]
+        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+            text=[imported_text[lang]["enable_g_auth"]],
+            callback=["g_auth_setup"]))
+        await dp.current_state().reset_state()
+        return
     await dp.current_state().update_data(master_pass=message.text)
     await dp.current_state().set_state(STATE.PASSWORD_ENCODE)
     await bot.send_message(chat_id, imported_text[lang]["password"].format(allowed_chars=allowed_chars))
@@ -165,7 +294,8 @@ async def encoded(message: types.Message):
         return
     text, code = encode(message.text.replace("\n", "\\n"), master_pass)
     await bot.send_message(chat_id, imported_text[lang]["result_encode"].format(
-        passw=text, code=code
+        passw=text, code=code,
+        hint=f"{master_pass[:2]}***********"
     ))
     await dp.current_state().reset_state()
 
@@ -188,7 +318,8 @@ async def encoded(message: types.Message):
     text, code = encode(text, master_pass)
     with open("encoded.txt", "a") as file:
         file.write(imported_text[lang]["result_encode_doc"].format(
-            passw=text, code=code))
+            passw=text, code=code,
+            hint=f"{master_pass[:2]}***********"))
     await bot.send_document(chat_id, open("encoded.txt", "rb"))
 
     with open("encoded.txt", "w") as file:
@@ -199,6 +330,11 @@ async def encoded(message: types.Message):
     await dp.current_state().reset_state()
 
 
+# ENCODE PROCESS---------------------------------------------------------------------------------------------
+
+# DECODE PROCESS---------------------------------------------------------------------------------------------
+
+
 @dp.message_handler(regexp="#encoded_pass")
 async def decode_start(message: types.Message):
     chat_id = message.chat.id
@@ -206,8 +342,12 @@ async def decode_start(message: types.Message):
     enc = message.text.replace("\n", " ")
     encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
     code = re.findall("#key: '(.*)'", enc)[0]
+
     await dp.current_state().update_data(password=encoded, code=code)
-    await bot.send_message(chat_id, imported_text[lang]["encode"])
+    if not enabled_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["encode master"])
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["g_auth decode"])
     await dp.current_state().set_state(STATE.MASTER_DECODE)
 
 
@@ -232,7 +372,11 @@ async def decode_start(message: types.Message):
     expression = f"{Other_Texts.END}(.*){Other_Texts.END_CODE}"
     code = re.findall(expression, text)[0]
     await dp.current_state().update_data(password=extract_encoded, code=code, doc=True)
-    await bot.send_message(chat_id, imported_text[lang]["encode"])
+
+    if not enabled_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["encode master"])
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["g_auth decode"])
     await dp.current_state().set_state(STATE.MASTER_DECODE)
 
 
@@ -242,7 +386,24 @@ async def decode_1(message: types.Message):
     lang = get_language(chat_id)
     en_password = (await dp.current_state().get_data())["password"]
     code = (await dp.current_state().get_data())["code"]
-    password = (decode(message.text, en_password, code)).replace("\\n", "\n")
+    if not enabled_g_auth(chat_id):
+        master = message.text
+    else:
+        if message.text == "/cancel":
+            await bot.send_message(chat_id, "OK.")
+            await dp.current_state().reset_state()
+            return
+        try:
+            if verify(chat_id, message.text):
+                master = get_google_auth(chat_id)
+            else:
+                await bot.send_message(chat_id, imported_text[lang]["invalid code"])
+                return
+        except binascii.Error:
+            await bot.send_message(chat_id, imported_text[lang]["invalid code"])
+            return
+
+    password = (decode(master, en_password, code)).replace("\\n", "\n")
 
     if (await dp.current_state().get_data()).get("doc"):
 
@@ -257,6 +418,11 @@ async def decode_1(message: types.Message):
         ))
     await dp.current_state().reset_state()
 
+
+# DECODE PROCESS---------------------------------------------------------------------------------------------
+
+
+# GOOGLE AUTH SETUP PROCESS----------------------------------------------------------------------------------
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def unknown(message: types.Message):
