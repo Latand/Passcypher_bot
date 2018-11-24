@@ -5,8 +5,8 @@ from sql import sql
 
 
 def create_google_auth(chat_id: int):
-    code = pyotp.random_base32()[:15]
-    link = f"otpauth://totp/{chat_id}%20%40%20Passcypher?secret={code}"
+    code = pyotp.random_base32()
+    link = f"otpauth://totp/bot:{chat_id}@Passcypher?secret={insert_dash(code)}&issuer=Passcypher"
     qr = pyqrcode.create(link, "L")
     name = f"code_{chat_id}.png"
     qr.png(name, scale=6)
@@ -38,3 +38,7 @@ def get_google_auth(chat_id):
     return sql.select(where="users",
                       what="google",
                       condition={"chat_id": chat_id})
+
+
+def insert_dash(line):
+    return "-".join([line[i:i + 4] for i in range(0, len(line), 4)])
