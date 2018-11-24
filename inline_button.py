@@ -5,7 +5,7 @@ def inlinemarkups(**kwargs) -> InlineKeyboardMarkup:
     keybd = InlineKeyboardMarkup()
     text = kwargs["text"]
     callback = kwargs["callback"]
-    if "align" not in kwargs or kwargs["align"] is None:
+    if "align" not in kwargs or not kwargs["align"]:
         for button in range(len(kwargs["text"])):
             keybd.add(
                 InlineKeyboardButton(
