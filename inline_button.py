@@ -1,20 +1,18 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
-from messages import texts
 
-def inlinemarkups(**kwargs) -> InlineKeyboardMarkup:
+
+def inlinemarkups(text: list, callback: list, align: list = None) -> InlineKeyboardMarkup:
     keybd = InlineKeyboardMarkup()
-    text = kwargs["text"]
-    callback = kwargs["callback"]
-    if "align" not in kwargs or kwargs["align"] is None:
-        for button in range(len(kwargs["text"])):
+    if not align:
+        for button in range(len(text)):
             keybd.add(
                 InlineKeyboardButton(
-                    text=kwargs["text"][button],
-                    callback_data=kwargs["callback"][button]
+                    text=text[button],
+                    callback_data=callback[button]
                 )
             )
     else:
-        for row in kwargs["align"]:
+        for row in align:
             rows = []
             for _ in range(row):
                 try:
@@ -26,7 +24,7 @@ def inlinemarkups(**kwargs) -> InlineKeyboardMarkup:
     return keybd
 
 
-def commmarkups(buts: list(), align: list() = ()) -> ReplyKeyboardMarkup:
+def commmarkups(buts: list, align: list = None) -> ReplyKeyboardMarkup:
     keybd = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     if not align:
         if isinstance(buts, str):
