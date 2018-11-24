@@ -2,7 +2,7 @@ import asyncio
 import logging
 import config
 import aiogram
-from inline_button import inlinemarkups
+from inline_button import *
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
@@ -53,20 +53,8 @@ async def change_language(call: types.CallbackQuery):
         pass
     language = call.data.split()[1]
     set_language(chat_id, language)
-    lang = get_language(chat_id)
-    await bot.send_message(chat_id, imported_text[lang]["changed"])
-    await asyncio.sleep(1)
-    if "start" in call.data:
-        text = imported_text[lang]["describe en 1"]
-        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
-            text=[imported_text[lang]["next"]],
-            callback=["describe_en 2"]
-        ))
-        text = imported_text[lang]["describe de 1"]
-        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
-            text=[imported_text[lang]["next"]],
-            callback=["describe_de 2"]
-        ))
+    await bot.send_message(chat_id, imported_text[language]["changed"],
+                           reply_markup=menu(language))
 
 
 @dp.message_handler(commands=["info"])
@@ -423,6 +411,76 @@ async def decode_1(message: types.Message):
 
 
 # GOOGLE AUTH SETUP PROCESS----------------------------------------------------------------------------------
+
+
+@dp.message_handler(func=lambda m: m.text in ENCODE.values())
+async def encode_m(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    if not enabled_g_auth(chat_id):
+        await bot.send_message(chat_id, imported_text[lang]["encode master"])
+        await dp.current_state().set_state(STATE.MASTER_ENCODE)
+    else:
+        await dp.current_state().update_data(master_pass=get_google_auth(chat_id))
+        await dp.current_state().set_state(STATE.PASSWORD_ENCODE)
+        await bot.send_message(chat_id, imported_text[lang]["password"].format(allowed_chars=allowed_chars))
+
+
+@dp.message_handler(func=lambda m: m.text in DECODE.values())
+async def decode_m(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    text = imported_text[lang]["describe de 1"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["next"]],
+        callback=["describe_de 2"]
+    ))
+
+
+@dp.message_handler(func=lambda m: m.text in INFO.values())
+async def info_m(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    text = imported_text[lang]["describe en 1"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["next"]],
+        callback=["describe_en 2"]
+    ))
+    text = imported_text[lang]["describe de 1"]
+    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        text=[imported_text[lang]["next"]],
+        callback=["describe_de 2"]
+    ))
+
+
+@dp.message_handler(func=lambda m: m.text in LANGUAGE.values())
+async def language_set(message: types.Message):
+    chat_id = message.chat.id
+    await bot.send_message(chat_id,
+                           Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
+                           reply_markup=inlinemarkups(
+                               text=["English", "Русский"],
+                               callback=["language en", "language ru"]
+                           ))
+
+
+@dp.message_handler(func=lambda m: m.text in GOOGLE_AUTH.values())
+async def set_google_auth(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    if has_g_auth(chat_id):
+        if enabled_g_auth(chat_id):
+            await bot.send_message(chat_id, imported_text[lang]["reset gauth"], reply_markup=inlinemarkups(
+                text=[imported_text[lang]["turn off"]],
+                callback=["turn 0"]))
+        else:
+
+            await bot.send_message(chat_id, imported_text[lang]["reset gauth"], reply_markup=inlinemarkups(
+                text=[imported_text[lang]["turn on"]],
+                callback=["turn 1"]))
+    else:
+        await bot.send_message(chat_id, imported_text[lang]["not set"])
+
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def unknown(message: types.Message):
