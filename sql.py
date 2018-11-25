@@ -101,7 +101,7 @@ class Mysql(object):
             args.clear()
         self.execute(command, args, kwargs=kwargs)
 
-    def execute(self, command, args: tuple or list, kwargs: dict, select=False, returning=False):
+    def execute(self, command, args: tuple or list = (), kwargs: dict = {}, select=False, returning=False):
         self.connection = self.connect()
         c = None
         if self.if_cursor_dict:
