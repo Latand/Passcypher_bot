@@ -23,9 +23,17 @@ Android link https://play.google.com/store/apps/details?id=com.google.android.ap
 
 # gitignore
 
-I've hidden 3 files, which are:
-1. File with SQL manipulations, because it is not done professionally and I don't want to be ashamed
+I've hidden a file with functions containing a small key which enables the extra level of security by a master password.
+However, you can rename "secret.example.py" to "secret.py" and it will work
 
-2. File with access info
 
-3. File with functions containing a small key which enables the extra level of security by a master password.
+# How to use
+
+1. Clone the repository
+2. Change the config:
+  1. Add bot token
+  2. Your webhook host (you need to have the ssl enabled on it) 
+  3. Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
+  4. Mysql database: user, password, db name
+ 3. Rename "secret.example.py" to "secret.py"
+ 4. Use sql.config to create a table in your database
