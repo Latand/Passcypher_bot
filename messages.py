@@ -1,6 +1,11 @@
 texts = {
     "en": {
-        "changed": "Language has changed to 🇬🇧<b>EN</b>",
+        "changed": """Language has changed to 🇬🇧<b>EN</b>
+
+<b>{users}</b> users are using this bot. 
+
+<b>{passwords}</b> passwords encrypted.
+<b>{messages}</b> messages received.""",
         "describe en 1": """
 <b>How to use this bot:</b>
 
@@ -176,7 +181,12 @@ It should look like that:
 
     },
     "ru": {
-        "changed": "Язык был изменен на 🇷🇺<b>RU</b>",
+        "changed": """Язык был изменен на 🇷🇺<b>RU</b>
+
+<b>{users}</b> Пользователей используют этого бота.
+<b>{passwords}</b> паролей зашифровано.
+<b>{messages}</b> сообщений обработано.
+ """,
         "describe en 1": """
 <b>Как использовать этого бота:</b> 
 

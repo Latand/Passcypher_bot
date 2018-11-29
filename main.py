@@ -17,6 +17,7 @@ import re
 from messages import Other_Texts, allowed_chars
 from google_auth import *
 import binascii
+from some_functions import *
 
 WEBHOOK_PATH = f'/{config.TOKEN}'
 WEBHOOK_URL = f"https://{config.WEBHOOK_HOST}{WEBHOOK_PATH}/"
@@ -35,6 +36,7 @@ dp = Dispatcher(bot, storage=storage)
 
 @dp.message_handler(commands=["start"])
 async def starting(message: types.Message):
+    increase_message_counter()
     chat_id = message.chat.id
     await bot.send_message(chat_id,
                            Other_Texts.WELCOME_MESSAGE.format(message.from_user.first_name),
@@ -53,12 +55,14 @@ async def change_language(call: types.CallbackQuery):
         pass
     language = call.data.split()[1]
     set_language(chat_id, language)
-    await bot.send_message(chat_id, imported_text[language]["changed"],
+
+    await bot.send_message(chat_id, imported_text[language]["changed"].format(**get_counters()),
                            reply_markup=menu(language))
 
 
 @dp.message_handler(commands=["info"])
 async def info(message: types.Message):
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     text = imported_text[lang]["describe en 1"]
@@ -78,6 +82,8 @@ async def info(message: types.Message):
 
 @dp.message_handler(commands=["g_auth_info"])
 async def info(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     text = imported_text[lang]["g_auth info"]
@@ -88,6 +94,8 @@ async def info(message: types.Message):
 
 @dp.message_handler(commands=["reset_google_auth"])
 async def info(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     if has_g_auth(chat_id):
@@ -161,6 +169,8 @@ async def g_auth(call: types.CallbackQuery):
 
 @dp.message_handler(state=STATE.G_AUTH_2)
 async def g_auth(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     try:
@@ -234,17 +244,24 @@ async def next_page(call: types.CallbackQuery):
 @dp.message_handler(commands=["set_language"])
 async def lang_choose(message: types.Message):
     chat_id = message.chat.id
-    await bot.send_message(chat_id,
-                           Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
-                           reply_markup=inlinemarkups(
-                               text=["English", "Русский"],
-                               callback=["language en", "language ru"]
-                           ))
+
+    increase_message_counter()
+    try:
+        await bot.send_message(chat_id,
+                               Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
+                               reply_markup=inlinemarkups(
+                                   text=["English", "Русский"],
+                                   callback=["language en", "language ru"]
+                               ))
+    except aiogram.utils.exceptions.CantParseEntities as err:
+        print(f"Error. {err.__class__.__name__}: {err}")
 
 
 # ENCODE PROCESS---------------------------------------------------------------------------------------------
 @dp.message_handler(commands=["encode", "e"])
 async def encode_start(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     if not enabled_g_auth(chat_id):
@@ -258,6 +275,8 @@ async def encode_start(message: types.Message):
 
 @dp.message_handler(state=STATE.MASTER_ENCODE)
 async def encoded(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     if "/g_auth_info" == message.text:
@@ -274,6 +293,8 @@ async def encoded(message: types.Message):
 
 @dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.TEXT)
 async def encoded(message: types.Message):
+
+    increase_message_counter(password=True)
     chat_id = message.chat.id
     lang = get_language(chat_id)
     master_pass = (await dp.current_state().get_data())["master_pass"]
@@ -290,6 +311,8 @@ async def encoded(message: types.Message):
 
 @dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.DOCUMENT)
 async def encoded(message: types.Message):
+
+    increase_message_counter(password=True)
     chat_id = message.chat.id
     lang = get_language(chat_id)
     master_pass = (await dp.current_state().get_data())["master_pass"]
@@ -325,12 +348,16 @@ async def encoded(message: types.Message):
 
 @dp.message_handler(regexp="#encoded_pass")
 async def decode_start(message: types.Message):
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     enc = message.text.replace("\n", " ")
-    encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
-    code = re.findall("#key: '(.*)'", enc)[0]
-
+    try:
+        encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
+        code = re.findall("#key: '(.*)'", enc)[0]
+    except IndexError:
+        await bot.send_message(chat_id, "Error")
+        return
     await dp.current_state().update_data(password=encoded, code=code)
     if not enabled_g_auth(chat_id):
         await bot.send_message(chat_id, imported_text[lang]["encode master"])
@@ -341,6 +368,8 @@ async def decode_start(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.DOCUMENT)
 async def decode_start(message: types.Message):
+
+    increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
     file_id = message.document.file_id
@@ -370,6 +399,8 @@ async def decode_start(message: types.Message):
 
 @dp.message_handler(state=STATE.MASTER_DECODE)
 async def decode_1(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     en_password = (await dp.current_state().get_data())["password"]
@@ -415,6 +446,8 @@ async def decode_1(message: types.Message):
 
 @dp.message_handler(func=lambda m: m.text in ENCODE.values())
 async def encode_m(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     if not enabled_g_auth(chat_id):
@@ -428,6 +461,8 @@ async def encode_m(message: types.Message):
 
 @dp.message_handler(func=lambda m: m.text in DECODE.values())
 async def decode_m(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     text = imported_text[lang]["describe de 1"]
@@ -439,6 +474,8 @@ async def decode_m(message: types.Message):
 
 @dp.message_handler(func=lambda m: m.text in INFO.values())
 async def info_m(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     text = imported_text[lang]["describe en 1"]
@@ -455,6 +492,8 @@ async def info_m(message: types.Message):
 
 @dp.message_handler(func=lambda m: m.text in LANGUAGE.values())
 async def language_set(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     await bot.send_message(chat_id,
                            Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
@@ -466,6 +505,8 @@ async def language_set(message: types.Message):
 
 @dp.message_handler(func=lambda m: m.text in GOOGLE_AUTH.values())
 async def set_google_auth(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     if has_g_auth(chat_id):
@@ -484,6 +525,8 @@ async def set_google_auth(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def unknown(message: types.Message):
+    increase_message_counter()
+
     chat_id = message.chat.id
     lang = get_language(chat_id)
     await bot.send_message(chat_id, imported_text[lang]["OOPS"])
