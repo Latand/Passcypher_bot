@@ -11,3 +11,5 @@ sql_config = {
 }
 
 PORT = os.environ.get("BOT_PORT")
+
+review_channel = -1001443580761

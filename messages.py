@@ -177,8 +177,29 @@ It should look like that:
         "bad_char": "You have restricted character in phrase.\n"
                     "Please try again.",
         "g_auth": "Use Google auth",
-        "no_g_auth": "Use Master password"
+        "no_g_auth": "Use Master password",
+        "advice": """Please, it is important for me to receive a response and advice from you.
+How would you change the bot? Any comments are appreciated. 
 
+Your comment will be posted <b>anonymously</b> in our channel @pcypher""",
+
+        "g_advice": "Give an advice to the bot",
+
+        "adv_message": """
+Your advice: 
+
+{advice}
+
+Write your advice in the next message.
+""",
+        "send_adv": "Publish",
+        "cancel": "Cancel",
+        "cancelled": "Cancelled",
+        "post_advice": """
+#Reviews Post:
+
+<b>{}</b>
+""",
     },
     "ru": {
         "changed": """Язык был изменен на 🇷🇺<b>RU</b>
@@ -369,8 +390,31 @@ CODE
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
         "large": "Ошибочка произошла... Слишком длинный пароль. постарайтесь ввести пароль длиной до 400 символов.",
         "bad_char": "У вас в пароле есть недопустимый символ\n"
-                    "Пожалуйста попробуйте еще раз."
+                    "Пожалуйста попробуйте еще раз.",
 
+        "g_auth": "Использовать Google authenticator",
+        "no_g_auth": "Использовать Мастер password",
+
+        "advice": """Для меня очень важно ваше мнение и любой отзыв о боте. 
+Что бы вы сделали лучше, что бы вы изменили? Любая помощь оценится. 
+
+Ваш комментарий будет опубликован в нашем канале @pcypher абсолютно анонимно.""",
+        "g_advice": "Дать совет боту",
+        "adv_message": """
+Ваш совет: 
+
+{advice}
+
+Напишите ваш совет боту в следующем сообщении.
+""",
+        "send_adv": "Опубликовать отзыв",
+        "cancel": "Отмена",
+        "cancelled": "Отменено",
+        "post_advice": """
+#Reviews Post:
+
+<b>{}</b>
+""",
     }
 }
 

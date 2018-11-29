@@ -39,24 +39,30 @@ def commmarkups(buts: list, align: list = None) -> ReplyKeyboardMarkup:
 
 
 ENCODE = {
-    "ru": "🔒Зашифровать",
-    "en": "🔒Encode"
+    "ru": "🔒 Зашифровать",
+    "en": "🔒 Encode"
 }
 DECODE = {
-    "ru": "🔑Расшифровать",
-    "en": "🔑Decode"
+    "ru": "🔑 Расшифровать",
+    "en": "🔑 Decode"
 }
 INFO = {
     "ru": "ℹ️Как использовать",
     "en": "ℹ️How to use"
 }
 LANGUAGE = {
-    "ru": "🇷🇺Сменить язык",
-    "en": "🇬🇧Set language"
+    "ru": "🇷🇺 Сменить язык",
+    "en": "🇬🇧 Set language"
 }
 GOOGLE_AUTH = {
-    "ru": "🔐Двухэтапная верификация",
-    "en": "🔐Two step verification"
+    "ru": "🔐 Двухэтапная верификация",
+    "en": "🔐 Two step verification"
+}
+
+REVIEWS = {
+
+    "ru": "📝 Оставить отзыв",
+    "en": "📝 Write a review"
 }
 
 
@@ -64,6 +70,6 @@ def menu(lang):
     return commmarkups(
         buts=[ENCODE[lang], DECODE[lang],
               INFO[lang], LANGUAGE[lang],
-              GOOGLE_AUTH[lang]],
-        align=[2, 2, 1]
+              GOOGLE_AUTH[lang], REVIEWS[lang]],
+        align=[2, 2, 2]
     )

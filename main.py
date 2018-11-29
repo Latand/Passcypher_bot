@@ -82,7 +82,6 @@ async def info(message: types.Message):
 
 @dp.message_handler(commands=["g_auth_info"])
 async def info(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -94,7 +93,6 @@ async def info(message: types.Message):
 
 @dp.message_handler(commands=["reset_google_auth"])
 async def info(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -169,7 +167,6 @@ async def g_auth(call: types.CallbackQuery):
 
 @dp.message_handler(state=STATE.G_AUTH_2)
 async def g_auth(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -260,7 +257,6 @@ async def lang_choose(message: types.Message):
 # ENCODE PROCESS---------------------------------------------------------------------------------------------
 @dp.message_handler(commands=["encode", "e"])
 async def encode_start(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -275,7 +271,6 @@ async def encode_start(message: types.Message):
 
 @dp.message_handler(state=STATE.MASTER_ENCODE)
 async def encoded(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -293,7 +288,6 @@ async def encoded(message: types.Message):
 
 @dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.TEXT)
 async def encoded(message: types.Message):
-
     increase_message_counter(password=True)
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -311,7 +305,6 @@ async def encoded(message: types.Message):
 
 @dp.message_handler(state=STATE.PASSWORD_ENCODE, content_types=types.ContentType.DOCUMENT)
 async def encoded(message: types.Message):
-
     increase_message_counter(password=True)
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -368,7 +361,6 @@ async def decode_start(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.DOCUMENT)
 async def decode_start(message: types.Message):
-
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
@@ -521,6 +513,80 @@ async def set_google_auth(message: types.Message):
                 callback=["turn 1"]))
     else:
         await bot.send_message(chat_id, imported_text[lang]["not set"])
+
+
+# -------------------------------------------------------------- REVIEW SECTION (DELETE IF NOT USED)
+@dp.message_handler(func=lambda m: m.text in REVIEWS.values())
+async def set_google_auth(message: types.Message):
+    increase_message_counter()
+
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    await bot.send_message(chat_id, imported_text[lang]["advice"],
+                           reply_markup=inlinemarkups(
+                               text=[imported_text[lang]["g_advice"]],
+                               callback=["give_advice"]
+                           ))
+
+
+@dp.callback_query_handler(func=lambda call: "give_advice" == call.data)
+async def next_page(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+    await dp.current_state().set_state(STATE.REVIEW)
+    await bot.edit_message_reply_markup(chat_id, call.message.message_id)
+    last_message = await bot.send_message(chat_id, imported_text[lang]["adv_message"].format(advice=" "),
+                                          reply_markup=inlinemarkups(
+                                              text=[imported_text[lang]["cancel"]],
+                                              callback=["cancel"]
+                                          ))
+    await dp.current_state().update_data(last_message=last_message.message_id)
+
+
+@dp.message_handler(state=STATE.REVIEW)
+async def set_google_auth(message: types.Message):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    try:
+        last_message = (await dp.current_state().get_data()).get("last_message")
+        await bot.edit_message_reply_markup(chat_id, last_message)
+    except:
+        pass
+    await dp.current_state().update_data(advice=message.text)
+    last_message = await bot.send_message(chat_id, imported_text[lang]["adv_message"].format(advice=message.text),
+                                          reply_markup=inlinemarkups(
+                                              text=[
+                                                  imported_text[lang]["send_adv"],
+                                                  imported_text[lang]["cancel"]],
+                                              callback=[
+                                                  "publish",
+                                                  "cancel"]
+                                          ))
+
+    await dp.current_state().update_data(last_message=last_message.message_id)
+
+
+@dp.callback_query_handler(state=STATE.REVIEW)
+async def next_page(call: types.CallbackQuery):
+    chat_id = call.message.chat.id
+    lang = get_language(chat_id)
+
+    try:
+        last_message = (await dp.current_state().get_data()).get("last_message")
+        await bot.edit_message_reply_markup(chat_id, last_message)
+    except:
+        pass
+
+    if call.data == "cancel":
+        await bot.send_message(chat_id, imported_text[lang]["cancelled"])
+        await dp.current_state().reset_state()
+        return
+    elif call.data == "publish":
+        if await throttling_message(chat_id):
+            return
+        advice = (await dp.current_state().get_data()).get("advice")
+        await bot.send_message(config.review_channel, imported_text[lang]["post_advice"].format(advice))
+# -------------------------------------------------------------- REVIEW SECTION (DELETE IF NOT USED)
 
 
 @dp.message_handler(content_types=types.ContentType.TEXT)

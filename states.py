@@ -16,6 +16,8 @@ class ALL_STATES(Helper):
     G_AUTH_1 = Item()
     G_AUTH_2 = Item()
 
+    REVIEW = Item()
+
 
 
 
