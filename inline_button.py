@@ -27,8 +27,6 @@ def inlinemarkups(text: list, callback: list, align: list = None) -> InlineKeybo
 def commmarkups(buts: list, align: list = None) -> ReplyKeyboardMarkup:
     keybd = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     if not align:
-        if isinstance(buts, str):
-            buts = [buts]
         for text in buts:
             keybd.add(KeyboardButton(str(text)))
     else:
