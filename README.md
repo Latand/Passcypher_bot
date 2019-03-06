@@ -37,3 +37,11 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
 -  4. Mysql database: user, password, db name
  3. Rename "secret.example.py" to "secret.py"
  4. Use sql.config to create a table in your database
+ 
+ 
+# TODO
+1. Add polling option for a faster installation
+2. Move function blocks to separate files
+3. Add Ukrainian language
+4. Add statistics command.
+ 
