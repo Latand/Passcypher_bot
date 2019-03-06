@@ -44,4 +44,4 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
 2. Move function blocks to separate files
 3. Add Ukrainian language
 4. Add statistics command.
- 
+5. Configure the Docker 
