@@ -33,7 +33,7 @@ I've hidden a file with functions containing a small key which enables the extra
 However, you can rename "secret.example.py" to "secret.py" and it will work
 
 
-# How to use
+# How to use (WEBHOOK)
 
 1. Clone the repository
 2. Change the config:
@@ -44,6 +44,16 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
  3. Rename "secret.example.py" to "secret.py"
  4. Use sql.config to create a table in your database
  
+ 
+# How to use (POLLING)
+
+1. Clone the repository
+2. Change the config:
+-  1. Add bot token
+-  2. Mysql database: user, password, db name
+ 3. Rename "secret.example.py" to "secret.py"
+ 4. Use sql.config to create a table in your database
+ 5. Run file main_bot.py
  
 # TODO
 1. Add Ukrainian language
