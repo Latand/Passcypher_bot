@@ -32,6 +32,8 @@ Android link https://play.google.com/store/apps/details?id=com.google.android.ap
 I've hidden a file with functions containing a small key which enables the extra level of security by a master password.
 However, you can rename "secret.example.py" to "secret.py" and it will work
 
+# Important!
+You will need <b>Python 3.7+</b> to use this bot!
 
 # How to use (WEBHOOK)
 
@@ -42,6 +44,7 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
 -  3. Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
 -  4. Mysql database: user, password, db name
  3. Rename "secret.example.py" to "secret.py"
+ 4. Install requirements <code>pip install -r requirements.txt</code>
  4. Use sql.config to create a table in your database
  5. Run file main_bot.py
  
@@ -54,6 +57,7 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
 -  2. Mysql database: user, password, db name
  3. Rename "secret.example.py" to "secret.py"
  4. Use sql.config to create a table in your database
+ 4. Install requirements <code>pip install -r requirements.txt</code>
  5. Run file main_bot.py
  
 # TODO
