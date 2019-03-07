@@ -14,8 +14,8 @@ async def starting(message: types.Message):
     await bot.send_message(chat_id,
                            Other_Texts.WELCOME_MESSAGE.format(message.from_user.first_name),
                            reply_markup=inlinemarkups(
-                               text=["English", "Русский"],
-                               callback=["language en start", "language ru start"]
+                               text=["English", "Русский", "Українська"],
+                               callback=["language en", "language ru", "language ua"]
                            ))
 
 
