@@ -49,8 +49,8 @@ async def lang_choose(message: types.Message):
         await bot.send_message(chat_id,
                                Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
                                reply_markup=inlinemarkups(
-                                   text=["English", "Русский"],
-                                   callback=["language en", "language ru"]
+                                   text=["English", "Русский", "Українська"],
+                                   callback=["language en", "language ru", "language ua"]
                                ))
     except CantParseEntities as err:
         print(f"Error. CantParseEntities: {err}")
