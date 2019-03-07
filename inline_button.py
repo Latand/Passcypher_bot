@@ -1,4 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from messages import get_text
 
 
 def inlinemarkups(text: list, callback: list, align: list = None) -> InlineKeyboardMarkup:
@@ -68,8 +69,11 @@ REVIEWS = {
 
 def menu(lang):
     return commmarkups(
-        buts=[ENCODE[lang], DECODE[lang],
-              INFO[lang], LANGUAGE[lang],
-              GOOGLE_AUTH[lang], REVIEWS[lang]],
+        buts=[get_text(lang, "ENCODE"),
+              get_text(lang, "DECODE"),
+              get_text(lang, "INFO"),
+              get_text(lang, "LANGUAGE"),
+              get_text(lang, "GOOGLE_AUTH"),
+              get_text(lang, "REVIEWS")],
         align=[2, 2, 2]
     )
