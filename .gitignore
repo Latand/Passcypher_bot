@@ -106,3 +106,4 @@ venv.bak/
 secret.py
 config_text.py
 .idea/
+config_test.py
