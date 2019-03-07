@@ -15,6 +15,7 @@ This repository is created to show that bot does not store your passwords locall
 3. Handlers separated
 4. Statistics command
 5. Use polling instead of Webhook
+6. Add Ukrainian language
 
 # Google Authenticator
 
@@ -61,5 +62,4 @@ You will need <b>Python 3.7+</b> to use this bot!
  5. Run file main_bot.py
  
 # TODO
-1. Add Ukrainian language
-2. Configure the Docker 
+1. Configure the Docker 
