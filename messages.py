@@ -532,7 +532,7 @@ Write your advice in the next message.
 
 Почати: /encode
 """,
-        "encode master": """Введіть свій мастер пароль, котрий вы гарно пам'ятаєте.
+        "encode master": """Введіть свій мастер пароль, котрий вы гарно пам`ятаєте.
 Прискорьте процес за допомогою Google Authenticator! 
 
 Натисніть для подальшої інформації /g_auth_info
