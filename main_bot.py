@@ -1,7 +1,7 @@
 import logging
 import asyncio
 from aiogram import Bot
-from config_test import *
+from config import *
 from aiogram import Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.exceptions import Throttled
