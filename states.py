@@ -1,26 +1,22 @@
-from aiogram.utils.helper import Helper, HelperMode, Item
+from aiogram.dispatcher.filters.state import State, StatesGroup
 
 
-class ALL_STATES(Helper):
-    mode = HelperMode.snake_case
-
-    MASTER_ENCODE = Item()
-    MASTER_DECODE = Item()
-
-    PASSWORD_ENCODE = Item()
-    PASSWORD_DECODE = Item()
-
-    CODE_DECODE = Item()
-    KEY_DECODE = Item()
-
-    G_AUTH_1 = Item()
-    G_AUTH_2 = Item()
-
-    REVIEW = Item()
+class Encode(StatesGroup):
+    MASTER_PASSWORD = State()
+    PASSWORD = State()
+    CODE = State()
 
 
+class Decode(StatesGroup):
+    MASTER_PASSWORD = State()
+    PASSWORD = State()
+    CODE = State()
 
 
+class Other(StatesGroup):
+    REVIEW = State()
 
 
-
+class GoogleAuth(StatesGroup):
+    ONE = State()
+    TWO = State()

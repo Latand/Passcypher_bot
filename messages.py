@@ -6,6 +6,12 @@ texts = {
 
 <b>{passwords}</b> passwords encrypted.
 <b>{messages}</b> messages received.""",
+        "stats": """
+<b>{users}</b> users are using this bot. 
+
+<b>{passwords}</b> passwords encrypted.
+<b>{messages}</b> messages received.
+        """,
         "describe en 1": """
 <b>How to use this bot:</b>
 
@@ -124,32 +130,32 @@ It should be under 400 characters, for best results there should be only charact
 ⚠️<b>YOU MUST DELETE THE MESSAGES WITH YOUR PASSWORD FROM THE BOT</b>
 """,
         "result_encode":
-        """
-Encoded (inside citation marks):
-
-#encoded_pass: '<code>{passw}</code>'
-
-Key:
-
-#key: '<code>{code}</code>'
-
-Hint: {hint}
-Save this message wherever you want and forward it to the bot should you need to decode it.
-""",
+            """
+    Encoded (inside citation marks):
+    
+    #encoded_pass: '<code>{passw}</code>'
+    
+    Key:
+    
+    #key: '<code>{code}</code>'
+    
+    Hint: {hint}
+    Save this message wherever you want and forward it to the bot should you need to decode it.
+    """,
         "result_encode_doc":
-        """
-----------------------------
-ENCRYPTION STARTS HERE
-----------------------------
-{passw}
-----------------------------
-ENCRYPTION ENDS HERE
-----------------------------
-CODE
-{code}
-----------------------------
-Hint: {hint}
-""",
+            """
+    ----------------------------
+    ENCRYPTION STARTS HERE
+    ----------------------------
+    {passw}
+    ----------------------------
+    ENCRYPTION ENDS HERE
+    ----------------------------
+    CODE
+    {code}
+    ----------------------------
+    Hint: {hint}
+    """,
         "entered_master": """Enter your encrypted password.
 """,
         "enter_code": """
@@ -200,6 +206,14 @@ Write your advice in the next message.
 
 <b>{}</b>
 """,
+
+        "ENCODE": "🔒 Encode",
+        "DECODE": "🔑 Decode",
+        "INFO": "ℹ️How to use",
+        "LANGUAGE": "🇬🇧 Set language",
+        "GOOGLE_AUTH": "🔐 Two step verification",
+        "REVIEWS": "📝 Write a review",
+
     },
     "ru": {
         "changed": """Язык был изменен на 🇷🇺<b>RU</b>
@@ -208,6 +222,12 @@ Write your advice in the next message.
 <b>{passwords}</b> паролей зашифровано.
 <b>{messages}</b> сообщений обработано.
  """,
+
+        "stats": """
+<b>{users}</b> Пользователей используют этого бота.
+<b>{passwords}</b> паролей зашифровано.
+<b>{messages}</b> сообщений обработано.
+        """,
         "describe en 1": """
 <b>Как использовать этого бота:</b> 
 
@@ -331,34 +351,34 @@ Write your advice in the next message.
 ⚠️<b>ВЫ ДОЛЖНЫ УДАЛИТЬ СООБЩЕНИЕ С ПАРОЛЕМ ИЗ ПЕРЕПИСКИ</b>
 """,
         "result_encode":
-        """
-Ваш зашифрованный пароль:
-#encoded_pass: '<code>{passw}</code>'
-
-Код:
-
-#key: '<code>{code}</code>'
-
-
-Сохраните это сообщение где угодно и перешлите боту когда захотите расшифровать свой пароль.
-
-Подсказка: {hint}
-""",
+            """
+    Ваш зашифрованный пароль:
+    #encoded_pass: '<code>{passw}</code>'
+    
+    Код:
+    
+    #key: '<code>{code}</code>'
+    
+    
+    Сохраните это сообщение где угодно и перешлите боту когда захотите расшифровать свой пароль.
+    
+    Подсказка: {hint}
+    """,
         "result_encode_doc":
-        """
-----------------------------
-ENCRYPTION STARTS HERE
-----------------------------
-{passw}
-----------------------------
-ENCRYPTION ENDS HERE
-----------------------------
-CODE
-{code}
-----------------------------
-
-Подсказка: {hint}
-""",
+            """
+    ----------------------------
+    ENCRYPTION STARTS HERE
+    ----------------------------
+    {passw}
+    ----------------------------
+    ENCRYPTION ENDS HERE
+    ----------------------------
+    CODE
+    {code}
+    ----------------------------
+    
+    Подсказка: {hint}
+    """,
         "entered_master": """Введите ваш зашифрованный пароль.
 """,
         "enter_code": """
@@ -415,6 +435,13 @@ CODE
 
 <b>{}</b>
 """,
+
+        "ENCODE": "🔒 Зашифровать",
+        "DECODE": "🔑 Расшифровать",
+        "INFO": "ℹ️Как использовать",
+        "LANGUAGE": "🇷🇺 Сменить язык",
+        "GOOGLE_AUTH": "🔐 Двухэтапная верификация",
+        "REVIEWS": "📝 Оставить отзыв",
     }
 }
 
@@ -451,3 +478,7 @@ CODE
 
 allowed_chars = 'qwertyuiopasdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890йцукенгшщзхъфывапролджэячсмитьбю'
 to_mix = 'qwertyuiop asdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890 йцукенгшщзхъфывапролджэячсмитьбю'
+
+
+def get_text(language, key):
+    return texts[language][key]

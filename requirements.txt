@@ -1,0 +1,5 @@
+aiogram
+pyotp
+pypng
+pyqrcode
+pymysql
