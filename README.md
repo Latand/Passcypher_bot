@@ -1,6 +1,4 @@
 # Passcypher_bot
-
-
 Try this bot here: <a href="https://t.me/pcypher_bot"> @pcypher_bot</a>
 
 
@@ -9,6 +7,14 @@ Also you can <b>encrypt and decrypt</b> your <b>txt</b> files.
 However, don't put large txt files, please. 
 
 This repository is created to show that bot does not store your passwords locally, and also you can make your commits to improve it.
+
+
+# New Features
+1. Updated to aiogram 2.0
+2. Stated modified
+3. Handlers separated
+4. Statistics command
+5. Use polling instead of Webhook
 
 # Google Authenticator
 
@@ -40,8 +46,5 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
  
  
 # TODO
-1. Add polling option for a faster installation
-2. Move function blocks to separate files
-3. Add Ukrainian language
-4. Add statistics command.
-5. Configure the Docker 
+1. Add Ukrainian language
+2. Configure the Docker 
