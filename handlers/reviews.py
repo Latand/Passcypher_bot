@@ -1,10 +1,11 @@
-from some_functions import *
+from aiogram.dispatcher import FSMContext
+
+import config
+from filters import *
 from inline_button import *
 from main_bot import bot, dp, logging, throttling_message
+from some_functions import *
 from states import *
-from filters import *
-from aiogram.dispatcher import FSMContext
-import config
 
 
 @dp.message_handler(Buttons("REVIEWS"))
@@ -14,10 +15,10 @@ async def reviews_button(message: types.Message):
     chat_id = message.chat.id
     lang = get_language(chat_id)
     await bot.send_message(chat_id, get_text(lang, "advice"),
-                           reply_markup=inlinemarkups(
+                           reply_markup=ListOfButtons(
                                text=[get_text(lang, "g_advice")],
                                callback=["give_advice"]
-                           ))
+                           ).inline_keyboard)
 
 
 @dp.callback_query_handler(Callbacks("give_advice"))
@@ -27,10 +28,10 @@ async def give_advice(call: types.CallbackQuery, state: FSMContext):
     await Other.REVIEW.set()
     await bot.edit_message_reply_markup(chat_id, call.message.message_id)
     last_message = await bot.send_message(chat_id, get_text(lang, "adv_message").format(advice=" "),
-                                          reply_markup=inlinemarkups(
+                                          reply_markup=ListOfButtons(
                                               text=[get_text(lang, "cancel")],
                                               callback=["cancel"]
-                                          ))
+                                          ).inline_keyboard)
     await state.update_data(last_message=last_message.message_id)
 
 
@@ -45,14 +46,14 @@ async def your_advice(message: types.Message, state: FSMContext):
         logging.error(f"{e}")
     await state.update_data(advice=message.text)
     last_message = await bot.send_message(chat_id, get_text(lang, "adv_message").format(advice=message.text),
-                                          reply_markup=inlinemarkups(
+                                          reply_markup=ListOfButtons(
                                               text=[
                                                   get_text(lang, "send_adv"),
                                                   get_text(lang, "cancel")],
                                               callback=[
                                                   "publish",
                                                   "cancel"]
-                                          ))
+                                          ).inline_keyboard)
 
     await state.update_data(last_message=last_message.message_id)
 

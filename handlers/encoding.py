@@ -1,12 +1,13 @@
-from some_functions import *
-from inline_button import *
-from google_auth import *
-from main_bot import bot, dp, logging
-from states import *
-from filters import *
 from aiogram.dispatcher import FSMContext
-from messages import allowed_chars
+import asyncio
 from encode import encode
+from filters import *
+from google_auth import *
+from inline_button import *
+from main_bot import bot, dp
+from messages import allowed_chars
+from some_functions import *
+from states import *
 
 
 @dp.message_handler(commands=["encode", "e"])
@@ -30,14 +31,17 @@ async def encoded(message: types.Message, state: FSMContext):
     lang = get_language(chat_id)
     if "/g_auth_info" == message.text:
         text = get_text(lang, "g_auth info")
-        await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+        await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
             text=[get_text(lang, "enable_g_auth")],
-            callback=["g_auth_setup"]))
+            callback=["g_auth_setup"]).inline_keyboard)
         await state.finish()
         return
     await state.update_data(master_pass=message.text)
     await Encode.PASSWORD.set()
     await bot.send_message(chat_id, get_text(lang, "password").format(allowed_chars=allowed_chars))
+
+    await asyncio.sleep(10)
+    await message.delete()
 
 
 @dp.message_handler(state=Encode.PASSWORD, content_types=types.ContentType.TEXT)
@@ -55,6 +59,8 @@ async def encoded(message: types.Message, state: FSMContext):
         hint=f"{master_pass[:2]}***********"
     ))
     await state.finish()
+    await asyncio.sleep(10)
+    await message.delete()
 
 
 @dp.message_handler(state=Encode.PASSWORD, content_types=types.ContentType.DOCUMENT)
@@ -87,3 +93,5 @@ async def encoded(message: types.Message, state: FSMContext):
         file.write(" ")
     await state.finish()
 
+    await asyncio.sleep(10)
+    await message.delete()

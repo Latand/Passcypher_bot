@@ -1,29 +1,35 @@
-from some_functions import *
-from inline_button import *
-from google_auth import *
-from main_bot import bot, dp, logging
-from states import *
-from filters import *
-from aiogram.dispatcher import FSMContext
-from messages import Other_Texts
-from decode import decode
-import re
+import asyncio
 import binascii
+import re
+
+from aiogram.dispatcher import FSMContext
+
+from decode import decode
+from filters import *
+from google_auth import *
+from main_bot import bot, dp
+from messages import Other_Texts
+from some_functions import *
+from states import *
 
 
-@dp.message_handler(regexp="#encoded_pass")
+@dp.message_handler(regexp="ENCRYPTION STARTS HERE")
 async def decode_start(message: types.Message, state: FSMContext):
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    enc = message.text.replace("\n", " ")
+    text = message.text
+    expression = re.compile(f"{Other_Texts.START}(.*){Other_Texts.END}")
     try:
-        encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
-        code = re.findall("#key: '(.*)'", enc)[0]
+        extract_encoded = expression.findall(text)[0]
+
     except IndexError:
-        await bot.send_message(chat_id, "Error")
+        await bot.send_message(chat_id, "Error. Wrong file")
         return
-    await state.update_data(password=encoded, code=code)
+    expression = re.compile(f"{Other_Texts.END}(.*){Other_Texts.END_CODE}")
+    code = expression.findall(text)[0]
+
+    await state.update_data(password=extract_encoded, code=code)
     if not enabled_g_auth(chat_id):
         await bot.send_message(chat_id, get_text(lang, "encode master"))
     else:
@@ -61,6 +67,9 @@ async def decode_start(message: types.Message, state: FSMContext):
         await bot.send_message(chat_id, get_text(lang, "g_auth decode"))
     await Decode.MASTER_PASSWORD.set()
 
+    await asyncio.sleep(10)
+    await message.delete()
+
 
 @dp.message_handler(state=Decode.MASTER_PASSWORD)
 async def decode_1(message: types.Message, state: FSMContext):
@@ -72,6 +81,8 @@ async def decode_1(message: types.Message, state: FSMContext):
     code = (await dp.current_state().get_data())["code"]
     if not enabled_g_auth(chat_id):
         master = message.text
+        await asyncio.sleep(10)
+        await message.delete()
     else:
         if message.text == "/cancel":
             await bot.send_message(chat_id, "OK.")

@@ -1,10 +1,11 @@
-from inline_button import *
-from messages import texts as imported_text
 from aiogram.utils.exceptions import CantParseEntities, MessageNotModified
-from messages import Other_Texts, allowed_chars, get_text
-from some_functions import *
+
 from filters import *
+from inline_button import *
 from main_bot import bot, dp
+from messages import Other_Texts
+from some_functions import *
+from inline_button import ListOfButtons
 
 
 @dp.message_handler(commands=["start"])
@@ -13,10 +14,10 @@ async def starting(message: types.Message):
     chat_id = message.chat.id
     await bot.send_message(chat_id,
                            Other_Texts.WELCOME_MESSAGE.format(message.from_user.first_name),
-                           reply_markup=inlinemarkups(
+                           reply_markup=ListOfButtons(
                                text=["English", "Русский", "Українська"],
                                callback=["language en", "language ru", "language ua"]
-                           ))
+                           ).inline_keyboard)
 
 
 @dp.callback_query_handler(Callbacks("language", contains=True))
@@ -48,10 +49,10 @@ async def lang_choose(message: types.Message):
     try:
         await bot.send_message(chat_id,
                                Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
-                               reply_markup=inlinemarkups(
+                               reply_markup=ListOfButtons(
                                    text=["English", "Русский", "Українська"],
                                    callback=["language en", "language ru", "language ua"]
-                               ))
+                               ).inline_keyboard)
     except CantParseEntities as err:
         print(f"Error. CantParseEntities: {err}")
 

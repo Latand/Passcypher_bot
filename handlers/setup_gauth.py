@@ -1,13 +1,13 @@
-# from messages import texts as imported_text
-# from languages import *
-from some_functions import *
-from inline_button import *
-from google_auth import *
 import binascii
-from main_bot import bot, dp, logging
-from states import *
-from filters import *
+
 from aiogram.dispatcher import FSMContext
+
+from filters import *
+from google_auth import *
+from inline_button import *
+from main_bot import bot, dp, logging
+from some_functions import *
+from states import *
 
 
 @dp.message_handler(commands=["g_auth_info"])
@@ -16,9 +16,9 @@ async def info(message: types.Message):
     chat_id = message.chat.id
     lang = get_language(chat_id)
     text = get_text(lang, "g_auth info")
-    await bot.send_message(chat_id, text, reply_markup=inlinemarkups(
+    await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
         text=[get_text(lang, "enable_g_auth")],
-        callback=["g_auth_setup"]))
+        callback=["g_auth_setup"]).inline_keyboard)
 
 
 @dp.message_handler(commands=["reset_google_auth"])
@@ -29,15 +29,15 @@ async def info(message: types.Message):
     if has_g_auth(chat_id):
         if enabled_g_auth(chat_id):
             await bot.send_message(chat_id, get_text(lang, "reset gauth"),
-                                   reply_markup=inlinemarkups(
+                                   reply_markup=ListOfButtons(
                                        text=[get_text(lang, "turn off")],
-                                       callback=["turn 0"]))
+                                       callback=["turn 0"]).inline_keyboard)
         else:
 
             await bot.send_message(chat_id, get_text(lang, "reset gauth"),
-                                   reply_markup=inlinemarkups(
+                                   reply_markup=ListOfButtons(
                                        text=[get_text(lang, "turn on")],
-                                       callback=["turn 1"]))
+                                       callback=["turn 1"]).inline_keyboard)
     else:
         await bot.send_message(chat_id, get_text(lang, "not set"))
 
@@ -69,9 +69,9 @@ async def g_auth(call: types.CallbackQuery, state: FSMContext):
         await bot.send_message(chat_id, get_text(lang, "already enabled"))
         return
 
-    await bot.send_message(chat_id, get_text(lang, "google_auth setup 1"), reply_markup=inlinemarkups(
+    await bot.send_message(chat_id, get_text(lang, "google_auth setup 1"), reply_markup=ListOfButtons(
         text=[get_text(lang, "continue")],
-        callback=["continue"]))
+        callback=["continue"]).inline_keyboard)
     await GoogleAuth.ONE.set()
 
 

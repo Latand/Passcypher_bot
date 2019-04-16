@@ -1,10 +1,12 @@
-import logging
 import asyncio
+import logging
+
 from aiogram import Bot
-from config import *
-from aiogram import Dispatcher, executor, types
+from aiogram import Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.exceptions import Throttled
+
+from config import *
 
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()

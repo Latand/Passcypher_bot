@@ -1,6 +1,8 @@
+import os
+
 import pyotp
 import pyqrcode
-import os
+
 from sql import sql
 
 
