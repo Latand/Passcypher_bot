@@ -15,7 +15,8 @@ This repository is created to show that bot does not store your passwords locall
 3. Handlers separated
 4. Statistics command
 5. Use polling instead of Webhook
-6. Add Ukrainian language
+6. Added Ukrainian language
+7. Bot now deletes user messages with passwords!
 
 # Google Authenticator
 
