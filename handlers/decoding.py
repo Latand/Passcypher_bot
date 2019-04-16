@@ -37,6 +37,26 @@ async def decode_start(message: types.Message, state: FSMContext):
     await Decode.MASTER_PASSWORD.set()
 
 
+@dp.message_handler(regexp="#encoded_pass")
+async def decode_start(message: types.Message, state: FSMContext):
+    increase_message_counter()
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    enc = message.text.replace("\n", " ")
+    try:
+        encoded = re.findall("#encoded_pass: '(.*)'.*#", enc)[0]
+        code = re.findall("#key: '(.*)'", enc)[0]
+    except IndexError:
+        await bot.send_message(chat_id, "Error")
+        return
+    await state.update_data(password=encoded, code=code)
+    if not enabled_g_auth(chat_id):
+        await bot.send_message(chat_id, get_text(lang, "encode master"))
+    else:
+        await bot.send_message(chat_id, get_text(lang, "g_auth decode"))
+    await Decode.MASTER_PASSWORD.set()
+
+
 @dp.message_handler(content_types=types.ContentType.DOCUMENT)
 async def decode_start(message: types.Message, state: FSMContext):
     increase_message_counter()
@@ -112,4 +132,3 @@ async def decode_1(message: types.Message, state: FSMContext):
             password=password
         ))
     await state.finish()
-
