@@ -101,8 +101,6 @@ async def decode_1(message: types.Message, state: FSMContext):
     code = (await dp.current_state().get_data())["code"]
     if not enabled_g_auth(chat_id):
         master = message.text
-        await asyncio.sleep(10)
-        await message.delete()
     else:
         if message.text == "/cancel":
             await bot.send_message(chat_id, "OK.")
@@ -132,3 +130,6 @@ async def decode_1(message: types.Message, state: FSMContext):
             password=password
         ))
     await state.finish()
+
+    await asyncio.sleep(10)
+    await message.delete()
