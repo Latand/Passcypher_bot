@@ -48,7 +48,7 @@ def generate_inline_keyboard(args: ListOfButtons) -> InlineKeyboardMarkup:
 
 
 def generate_reply_keyboard(args: ListOfButtons) -> ReplyKeyboardMarkup:
-    keyboard = ReplyKeyboardMarkup()
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
 
     if not args.align:
         for num, button in enumerate(args.text):
