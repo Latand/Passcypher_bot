@@ -25,7 +25,7 @@ class ListOfButtons:
 
     @property
     def reply_keyboard(self):
-        return generate_inline_keyboard(self)
+        return generate_reply_keyboard(self)
 
 
 def generate_inline_keyboard(args: ListOfButtons) -> InlineKeyboardMarkup:
