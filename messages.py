@@ -169,12 +169,17 @@ To encode your password press /encode
 
 To decode your password - forward the message with encoded password you received from bot.
 It should look like that:
-
-#encoded_pass: '<code>password</code>'
-
-#key: '<code>123456</code>'
-
-
+<code>----------------------------
+ENCRYPTION STARTS HERE
+----------------------------
+password
+----------------------------
+ENCRYPTION ENDS HERE
+----------------------------
+CODE
+code
+----------------------------
+</code>
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
         "large": "Error has occurred... Too long phrase. Try to enter a phrase under 400 characters.",
         "bad_char": "You have restricted character in phrase.\n"
@@ -388,14 +393,17 @@ CODE
 
 Для того, чтобы раскодировать - пришлите сообщение, которое вы получили от бота с закодированным паролем. 
 Оно должно быть в формате:
-
-
-#encoded_pass: '<code>password</code>'
-
-Код:
-
-#key: '<code>123456</code>'
-
+<code>----------------------------
+ENCRYPTION STARTS HERE
+----------------------------
+password
+----------------------------
+ENCRYPTION ENDS HERE
+----------------------------
+CODE
+code
+----------------------------
+</code>
 
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
         "large": "Ошибочка произошла... Слишком длинный пароль. постарайтесь ввести пароль длиной до 400 символов.",
@@ -612,14 +620,17 @@ CODE
 
 Задля того, щоб розкодувати - перешліть повідомлення, котре ви отримали від бота с закодованим паролем. 
 Воно повинно бути у форматі:
-
-
-#encoded_pass: '<code>password</code>'
-
-Код:
-
-#key: '<code>123456</code>'
-
+<code>----------------------------
+ENCRYPTION STARTS HERE
+----------------------------
+password
+----------------------------
+ENCRYPTION ENDS HERE
+----------------------------
+CODE
+code
+----------------------------
+</code>
 
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
         "large": "Виникла помилочка... Занадто довгий пароль. Будьласка введіть пароль довжиною до 400 символів.",
