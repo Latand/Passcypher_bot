@@ -38,7 +38,10 @@ def verify(chat_id, code: str):
         return False
     totp = pyotp.TOTP(secret)
     code_regex = re.compile(r"^(\d{3}).?(\d{3})")
-    code = "".join(*code_regex.findall(code))
+    code = code_regex.findall(code)
+    if not code:
+        return False
+    code = "".join(*code)
     if not code:
         return False
     return totp.verify(code)
