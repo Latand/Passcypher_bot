@@ -53,10 +53,19 @@ async def encoded(message: types.Message, state: FSMContext):
     if len(message.text) > 400:
         await bot.send_message(chat_id, get_text(lang, "large"))
         return
+    elif not master_pass:
+        await message.reply("Master Password not found.")
+        await state.finish()
+        await asyncio.sleep(10)
+        await message.delete()
     text, code = encode(message.text.replace("\n", "\\n"), master_pass)
+    if master_pass == get_google_auth(chat_id):
+        hint = "Google Authenticator"
+    else:
+        hint = master_pass[:2] + "***********"
     await bot.send_message(chat_id, get_text(lang, "result_encode").format(
         passw=text, code=code,
-        hint=f"{master_pass[:2]}***********"
+        hint=f"{hint}"
     ))
     await state.finish()
     await asyncio.sleep(10)

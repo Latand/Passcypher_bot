@@ -99,6 +99,16 @@ async def g_auth(call: types.CallbackQuery, state: FSMContext):
     await GoogleAuth.next()
 
 
+@dp.message_handler(commands=["cancel"], state=GoogleAuth.TWO)
+async def reset(message: types.Message, state: FSMContext):
+    await state.reset_state()
+    chat_id = message.chat.id
+
+    lang = get_language(chat_id)
+    sql.update(table="users", google="", enabled=0, condition={"chat_id": chat_id})
+    await message.reply(get_text(lang, "done"))
+
+
 @dp.message_handler(state=GoogleAuth.TWO)
 async def g_auth(message: types.Message, state: FSMContext):
     increase_message_counter()
@@ -118,5 +128,4 @@ async def g_auth(message: types.Message, state: FSMContext):
         await bot.send_message(chat_id, get_text(lang, "confirm yes"))
         await state.finish()
     else:
-        await bot.send_message(chat_id, get_text(lang, "confirm no"))
-
+        await bot.send_message(chat_id, get_text(lang, "invalid code"))

@@ -106,6 +106,11 @@ async def decode_1(message: types.Message, state: FSMContext):
             await bot.send_message(chat_id, "OK.")
             await dp.current_state().reset_state()
             return
+        if not has_g_auth(chat_id):
+            await message.reply(get_text(lang, "gauth_error"))
+            await state.finish()
+
+            return
         try:
             if verify(chat_id, message.text):
                 master = get_google_auth(chat_id)

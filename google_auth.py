@@ -2,13 +2,14 @@ import os
 
 import pyotp
 import pyqrcode
-
+import re
 from sql import sql
+import logging
 
 
 def create_google_auth(chat_id: int):
     code = pyotp.random_base32()
-    link = f"otpauth://totp/bot:{chat_id}@Passcypher?secret={insert_dash(code)}&issuer=Passcypher"
+    link = f"otpauth://totp/bot:{chat_id}@Passcypher?secret={code}&issuer=Passcypher"
     qr = pyqrcode.create(link, "L")
     name = f"code_{chat_id}.png"
     qr.png(name, scale=6)
@@ -26,14 +27,21 @@ def enabled_g_auth(chat_id):
 
 
 def has_g_auth(chat_id):
-    return sql.select(what="google", where="users", condition={"chat_id": chat_id}) is not None
+    return sql.select(what="google", where="users", condition={"chat_id": chat_id})
 
 
-def verify(chat_id, code: int):
-    totp = pyotp.TOTP(sql.select(where="users",
-                                 what="google",
-                                 condition={"chat_id": chat_id}))
-    return totp.verify(str(code))
+def verify(chat_id, code: str):
+    if not code:
+        return False
+    secret = get_google_auth(chat_id)
+    if not secret:
+        return False
+    totp = pyotp.TOTP(secret)
+    code_regex = re.compile(r"^(\d{3}).?(\d{3})")
+    code = "".join(*code_regex.findall(code))
+    if not code:
+        return False
+    return totp.verify(code)
 
 
 def get_google_auth(chat_id):

@@ -3,7 +3,7 @@ import logging
 
 from aiogram import Bot
 from aiogram import Dispatcher, executor
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.utils.exceptions import Throttled
 
 from config import *
@@ -11,7 +11,8 @@ from config import *
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
 bot = Bot(token=TOKEN, loop=loop, parse_mode="HTML")
-storage = MemoryStorage()
+# storage = MemoryStorage()
+storage = RedisStorage2()
 dp = Dispatcher(bot, storage=storage)
 
 
@@ -28,15 +29,17 @@ async def on_startup(dp):
 
 
 if __name__ == '__main__':
+
+    if Reviews_state:
+        from handlers.reviews import *
     from handlers.setup_gauth import *
     from handlers.bot_info import *
     from handlers.buttons import *
     from handlers.decoding import *
     from handlers.encoding import *
+    from handlers.admin_panel import *
     from handlers.main import *
-    if Reviews_state:
-        from handlers.reviews import *
-
+    from handlers.errors import *
     if Webhook_state:
         executor.start_webhook(dispatcher=dp, webhook_path="",
                                host=WEBAPP_HOST, port=WEBAPP_PORT, on_startup=on_startup)

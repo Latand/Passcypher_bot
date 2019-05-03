@@ -1,3 +1,5 @@
+import logging
+
 from filters import *
 from inline_button import ListOfButtons
 from main_bot import bot, dp
@@ -26,7 +28,11 @@ async def info(message: types.Message):
 async def next_page(call: types.CallbackQuery):
     chat_id = call.message.chat.id
     lang = get_language(chat_id)
-    page = int(call.data.split()[1])
+    try:
+        page = int(call.data.split()[1])
+    except IndexError as err:
+        logging.error(f"Error {err}. Call: {call.data}")
+        return
     buts, calls = [], []
     if page > 1:
         buts.append(get_text(lang, "prev"))

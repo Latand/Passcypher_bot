@@ -24,3 +24,13 @@ class Callbacks(BoundFilter):
             return self.key in call.data
 
         return self.key == call.data
+
+
+class IsAdmin(BoundFilter):
+    admin_id = 362089194
+
+    def __init__(self):
+        pass
+
+    async def check(self, message: types.Message):
+        return message.chat.id == self.admin_id

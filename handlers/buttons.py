@@ -63,8 +63,8 @@ async def language_set(message: types.Message):
     await bot.send_message(chat_id,
                            Other_Texts.SET_LANGUAGE_MESSAGE.format(message.from_user.first_name),
                            reply_markup=ListOfButtons(
-                               text=["English", "Русский"],
-                               callback=["language en", "language ru"]
+                               text=["English", "Русский", "Українська"],
+                               callback=["language en", "language ru", "language ua"]
                            ).inline_keyboard)
 
 
