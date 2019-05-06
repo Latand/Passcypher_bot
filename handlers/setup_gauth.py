@@ -75,6 +75,23 @@ async def g_auth(call: types.CallbackQuery, state: FSMContext):
     await GoogleAuth.ONE.set()
 
 
+@dp.message_handler(commands=["cancel"], state=[GoogleAuth.TWO, GoogleAuth.ONE])
+async def reset(message: types.Message, state: FSMContext):
+    await state.reset_state()
+    chat_id = message.chat.id
+
+    lang = get_language(chat_id)
+    sql.update(table="users", google="", enabled=0, condition={"chat_id": chat_id})
+    await message.reply(get_text(lang, "done"))
+
+
+@dp.message_handler(state=GoogleAuth.ONE)
+async def g_auth(message: types.Message, state: FSMContext):
+    chat_id = message.chat.id
+    lang = get_language(chat_id)
+    await message.reply(get_text(lang, "error_g_state"))
+
+
 @dp.callback_query_handler(state=GoogleAuth.ONE)
 async def g_auth(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
@@ -97,16 +114,6 @@ async def g_auth(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(message_1=message_1, message_2=message_2)
     await GoogleAuth.next()
-
-
-@dp.message_handler(commands=["cancel"], state=GoogleAuth.TWO)
-async def reset(message: types.Message, state: FSMContext):
-    await state.reset_state()
-    chat_id = message.chat.id
-
-    lang = get_language(chat_id)
-    sql.update(table="users", google="", enabled=0, condition={"chat_id": chat_id})
-    await message.reply(get_text(lang, "done"))
 
 
 @dp.message_handler(state=GoogleAuth.TWO)

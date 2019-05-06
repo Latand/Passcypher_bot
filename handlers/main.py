@@ -1,6 +1,7 @@
 from aiogram.utils.exceptions import CantParseEntities, MessageNotModified
 
 from filters import *
+from aiogram.dispatcher.dispatcher import FSMContext
 from inline_button import *
 from main_bot import bot, dp
 from messages import Other_Texts
@@ -8,9 +9,10 @@ from some_functions import *
 from inline_button import ListOfButtons
 
 
-@dp.message_handler(commands=["start"])
-async def starting(message: types.Message):
+@dp.message_handler(commands=["start"], state="*")
+async def starting(message: types.Message, state: FSMContext):
     increase_message_counter()
+    await state.reset_state()
     chat_id = message.chat.id
     await bot.send_message(chat_id,
                            Other_Texts.WELCOME_MESSAGE.format(message.from_user.first_name),
