@@ -191,7 +191,9 @@ code
         "advice": """Please, it is important for me to receive a response and advice from you.
 How would you change the bot? Any comments are appreciated. 
 
-Your comment will be posted <b>anonymously</b> in our channel @pcypher""",
+Your comment will be posted <b>anonymously</b> in our channel @pcypher
+Or you can just rate the bot using this link: https://t.me/pcypher/16
+""",
 
         "g_advice": "Give an advice to the bot",
 
@@ -421,7 +423,9 @@ code
         "advice": """Для меня очень важно ваше мнение и любой отзыв о боте. 
 Что бы вы сделали лучше, что бы вы изменили? Любая помощь оценится. 
 
-Ваш комментарий будет опубликован в нашем канале @pcypher абсолютно анонимно.""",
+Ваш комментарий будет опубликован в нашем канале @pcypher абсолютно анонимно.
+
+Или вы можете поставить оценку боту по этой ссылке: https://t.me/pcypher/16""",
         "g_advice": "Дать совет боту",
         "adv_message": """
 Ваш совет: 
@@ -650,7 +654,9 @@ code
 
         "advice": """Для мене дуже важливо ваша думка та будь-який відгук про бота. Що ви б покращили або змінили? Будь-яка допомога буде цінитись. 
 
-Ваш коментарій буде опублікований на нашому каналі @pcypher абсолютно анонімно.""",
+Ваш коментарій буде опублікований на нашому каналі @pcypher абсолютно анонімно.
+Або ви можете поставити оцінку боту за цим посиланням: https://t.me/pcypher/16
+""",
         "g_advice": "Надати пораду ботові",
         "adv_message": """
 Ваша порада: 
