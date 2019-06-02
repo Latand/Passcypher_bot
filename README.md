@@ -8,6 +8,10 @@ However, don't put large txt files, please.
 
 This repository is created to show that bot does not store your passwords locally, and also you can make your commits to improve it.
 
+New instruction:
+https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02
+One more link is the instruction for Google Authenticator!
+https://telegra.ph/Passcypher-Google-Authenticator-06-02
 
 # New Features
 1. Updated to aiogram 2.0
