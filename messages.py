@@ -722,5 +722,12 @@ allowed_chars = 'qwertyuiopasdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890йцук�
 to_mix = 'qwertyuiop asdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890 йцукенгшщзхъфывапролджэячсмитьбю'
 
 
+class Links:
+    INSTRUCTION = "https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02"
+    ENCRYPT = "https://telegra.ph/Passwords-Encryption-Process-06-02"
+    DECRYPT = "https://telegra.ph/Passwords-Decryption-Process-06-02"
+    GOOGLE_AUTH = "https://telegra.ph/Passcypher-Google-Authenticator-06-02"
+
+
 def get_text(language, key):
     return texts[language][key]

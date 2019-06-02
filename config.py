@@ -13,7 +13,7 @@ sql_config = {
 Reviews_state = False
 # Set Reviews_state = True for enabling opportunity to leave reviews (probably not needed)
 review_channel = -1001443580761
-
+admin_id = 362089194
 
 Webhook_state = False
 

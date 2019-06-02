@@ -3,7 +3,7 @@ import logging
 from filters import *
 from inline_button import ListOfButtons
 from main_bot import bot, dp
-from messages import allowed_chars
+from messages import allowed_chars, Links
 from some_functions import *
 
 
@@ -12,6 +12,9 @@ async def info(message: types.Message):
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
+    if lang == "en":
+        await message.reply(Links.INSTRUCTION)
+        return
     text = get_text(lang, "describe en 1")
     await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
         text=[get_text(lang, "next")],

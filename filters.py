@@ -2,6 +2,7 @@ from aiogram.dispatcher.filters import BoundFilter
 from aiogram import types
 from languages import *
 from messages import get_text
+from config import admin_id
 
 
 class Buttons(BoundFilter):
@@ -27,7 +28,7 @@ class Callbacks(BoundFilter):
 
 
 class IsAdmin(BoundFilter):
-    admin_id = 362089194
+    admin_id = admin_id
 
     def __init__(self):
         pass
