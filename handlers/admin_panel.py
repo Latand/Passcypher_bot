@@ -1,5 +1,6 @@
-from asyncio import sleep, ensure_future
+from asyncio import sleep
 from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
+from aiogram import types
 from filters import *
 from main_bot import bot, dp
 from some_functions import *
@@ -13,7 +14,14 @@ import re
 async def encode_m(message: types.Message):
     increase_message_counter()
 
-    result = ensure_future(sender(message))
+    result = await sender(message)
+    await message.reply(f"Заблокировано {result}")
+
+
+@dp.message_handler(IsAdmin(), commands=["check_blocked"])
+async def encode_m(message: types.Message):
+    increase_message_counter()
+    await checker()
 
 
 async def sender(message: types.Message):
@@ -23,9 +31,10 @@ async def sender(message: types.Message):
     if not text:
         return 0
 
-    users_list = sql.select(what="chat_id", where="users", condition={"language": lang})
+    users_list = sql.select(what="chat_id", where="users", condition={"language": lang,
+                                                                      "blocked": 0})
     total_users = len(users_list)
-    to_edit = await bot.send_message(admin_id, f"Всего {total_users}. Послано 0 Юзерам. Текст:{text}")
+    to_edit = await bot.send_message(admin_id, f"Всего живых {total_users}. Послано 0 Юзерам. Текст:{text}")
     errors = set()
     count = 0
     for (user,) in users_list:
@@ -44,3 +53,24 @@ async def sender(message: types.Message):
             if count % 10 == 0:
                 await to_edit.edit_text(f"Всего {total_users}. Послано {count} Юзерам.")
     return len(errors)
+
+
+async def checker():
+
+    users_list = sql.select(what="chat_id", where="users", condition={"blocked": 0})
+    total_users = len(users_list)
+    to_edit = await bot.send_message(admin_id, f"Всего {total_users} юзеров.")
+    count = 0
+    for (user,) in users_list:
+        try:
+            await bot.send_chat_action(chat_id=user, action=types.chat.ChatActions.TYPING)
+
+        except (BotBlocked, ChatNotFound, UserDeactivated):
+
+            sql.update(table="users", condition={"chat_id": user}, blocked=1)
+            logging.info(f"User {user} blocked bot")
+            count += 1
+        finally:
+            await sleep(0.4)
+
+    await to_edit.edit_text(f"Всего живых {total_users}. Заблокировано {count} Юзеров.")

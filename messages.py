@@ -169,22 +169,9 @@ Your decoded password is inside citation marks '<code>{password}</code>'
 
         "OOPS": """
 Looks like the input is invalid...
-To encode your password press /encode
-
 To decode your password - forward the message with encoded password you received from bot.
-It should look like that:
-<code>----------------------------
-ENCRYPTION STARTS HERE
-----------------------------
-password
-----------------------------
-ENCRYPTION ENDS HERE
-----------------------------
-CODE
-code
-----------------------------
-</code>
-<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
+<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>
+Perhaps you wanted to encrypt this message? Click <b> Encrypt </b>.""",
         "large": "Error has occurred... Too long phrase. Try to enter a phrase under 400 characters.",
         "bad_char": "You have restricted character in phrase.\n"
                     "Please try again.",
@@ -398,23 +385,11 @@ CODE
 
         "OOPS": """
 Похоже, что вы ввели неверный запрос...
-Для того, чтобы закодировать пароль нажмите /encode
 
 Для того, чтобы раскодировать - пришлите сообщение, которое вы получили от бота с закодированным паролем. 
-Оно должно быть в формате:
-<code>----------------------------
-ENCRYPTION STARTS HERE
-----------------------------
-password
-----------------------------
-ENCRYPTION ENDS HERE
-----------------------------
-CODE
-code
-----------------------------
-</code>
+<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>
 
-<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
+Возможно вы хотели зашифровать это сообщение? Нажмите <b>зашифровать</b>.""",
         "large": "Ошибочка произошла... Слишком длинный пароль. постарайтесь ввести пароль длиной до 400 символов.",
         "bad_char": "У вас в пароле есть недопустимый символ\n"
                     "Пожалуйста попробуйте еще раз.",
@@ -630,23 +605,9 @@ CODE
 
         "OOPS": """
 Схоже, що ви ввели хибний запит...
-Задля того, щоб закодувати пароль натисніть /encode
-
 Задля того, щоб розкодувати - перешліть повідомлення, котре ви отримали від бота с закодованим паролем. 
-Воно повинно бути у форматі:
-<code>----------------------------
-ENCRYPTION STARTS HERE
-----------------------------
-password
-----------------------------
-ENCRYPTION ENDS HERE
-----------------------------
-CODE
-code
-----------------------------
-</code>
-
-<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>""",
+<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>
+Можливо ви хотіли зашифрувати це повідомлення? Натисніть <b> зашифрувати </b>.""",
         "large": "Виникла помилочка... Занадто довгий пароль. Будьласка введіть пароль довжиною до 400 символів.",
         "bad_char": "У вас у паролі є неприпустимий символ\n"
                     "Будьласка спробуйте ще раз.",

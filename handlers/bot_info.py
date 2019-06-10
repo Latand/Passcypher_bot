@@ -1,9 +1,8 @@
 import logging
 
 from filters import *
-from inline_button import ListOfButtons
-from main_bot import bot, dp
-from messages import allowed_chars, links
+from main_bot import dp
+from messages import links
 from some_functions import *
 
 

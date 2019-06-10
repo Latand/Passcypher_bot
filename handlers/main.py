@@ -60,9 +60,25 @@ async def lang_choose(message: types.Message):
 
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
-async def unknown(message: types.Message):
+async def unknown(message: types.Message, state: FSMContext):
     increase_message_counter()
 
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    await bot.send_message(chat_id, get_text(lang, "OOPS"))
+    text = (get_text(lang, "ENCODE") + f" '{message.text}'")[:20] + "..."
+
+    await message.reply(get_text(lang, "OOPS"),
+                        reply_markup=ListOfButtons(
+                            text=[text],
+                            callback=[f"encrypt_saved"]
+                        ).inline_keyboard)
+
+
+@dp.message_handler(state="*")
+async def unknown_message(message: types.Message, state: FSMContext):
+    await message.reply("Seems like you have an unfinished business...")
+
+
+@dp.callback_query_handler(state="*")
+async def unknown_message(call: types.CallbackQuery, state: FSMContext):
+    await call.answer("Seems like you have an unfinished business...")
