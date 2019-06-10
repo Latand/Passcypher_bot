@@ -60,6 +60,7 @@ async def encode_saved(call: types.CallbackQuery, state: FSMContext):
             hint=f"{hint}"
         ))
         await state.finish()
+        increase_message_counter(password=True)
 
     await asyncio.sleep(10)
 
@@ -107,6 +108,8 @@ async def encoded(message: types.Message, state: FSMContext):
                 hint=f"{hint}"
             ))
             await state.finish()
+            increase_message_counter(password=True)
+
     await asyncio.sleep(10)
     await message.delete()
 
