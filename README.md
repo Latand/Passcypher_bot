@@ -41,30 +41,27 @@ However, you can rename "secret.example.py" to "secret.py" and it will work
 # Important!
 You will need <b>Python 3.7+</b> to use this bot!
 
-# How to use (WEBHOOK)
+# How to use (WEBHOOK for advanced usage)
 
 1. Clone the repository
-2. Change the config:
--  1. Add bot token
--  2. Your webhook host (you need to have the ssl enabled on it) 
--  3. Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
--  4. Mysql database: user, password, db name
- 3. Rename "secret.example.py" to "secret.py"
- 4. Install requirements <code>pip install -r requirements.txt</code>
- 4. Use sql.config to create a table in your database
- 5. Run file main_bot.py
+2. Install the MYSQL on your server
+3. Amend the config (and add needed variables to environment variables):
+    -  Add bot token
+    -  Your webhook host (you need to have the ssl enabled on it) 
+    -  Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
+    -  Mysql database: user, password, db name
+4. Install requirements <code>pip install -r requirements.txt</code>
+5. Run <code>python3.7 install.py</code> and follow the instructions
+6. Run <code>python3.7 main_bot.py</code>
  
  
 # How to use (POLLING)
 
 1. Clone the repository
-2. Change the config:
--  1. Add bot token
--  2. Mysql database: user, password, db name
- 3. Rename "secret.example.py" to "secret.py"
- 4. Use sql.config to create a table in your database
- 4. Install requirements <code>pip install -r requirements.txt</code>
- 5. Run file main_bot.py
+2. Install the MYSQL on your server
+3. Install requirements <code>pip install -r requirements.txt</code>
+4. Run <code>python3.7 install.py</code>
+5. Run <code>python3.7 main_bot.py</code>
  
 # TODO
 1. Configure the Docker 

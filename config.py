@@ -7,7 +7,7 @@ sql_config = {
     "user": os.environ.get("SQL_USER"),
     "password": os.environ.get("SQL_PASS"),
     "db": os.environ.get("SQL_DB"),
-    "charset": 'utf8'
+    "charset": 'utf8mb4'
 }
 
 Reviews_state = False
