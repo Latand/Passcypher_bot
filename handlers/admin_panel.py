@@ -14,8 +14,6 @@ async def encode_m(message: types.Message):
     increase_message_counter()
 
     result = ensure_future(sender(message))
-    chat_id = message.chat.id
-    await bot.send_message(chat_id, f"Готово. Ошибки: {result}")
 
 
 async def sender(message: types.Message):

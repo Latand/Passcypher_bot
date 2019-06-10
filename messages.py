@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 texts = {
     "en": {
         "changed": """Language has changed to 🇬🇧<b>EN</b>
@@ -676,7 +678,7 @@ code
 
         "ENCODE": "🔒 Зашифрувати",
         "DECODE": "🔑 Розшифрувати",
-        "INFO": "ℹ️Как використовувати",
+        "INFO": "ℹ️Як використовувати",
         "LANGUAGE": "🇺🇦 Змінити мову",
         "GOOGLE_AUTH": "🔐 Двохетапна верифікація",
         "REVIEWS": "📝 Залишити відгук",
@@ -723,10 +725,35 @@ to_mix = 'qwertyuiop asdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890 йцукенг
 
 
 class Links:
-    INSTRUCTION = "https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02"
-    ENCRYPT = "https://telegra.ph/Passwords-Encryption-Process-06-02"
-    DECRYPT = "https://telegra.ph/Passwords-Decryption-Process-06-02"
-    GOOGLE_AUTH = "https://telegra.ph/Passcypher-Google-Authenticator-06-02"
+    def __init__(self, lang):
+        self.INSTRUCTION = {
+            "en": "https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02",
+            "ru": "https://telegra.ph/Kak-ispolzovat-Passcypher-Instrukciya-06-03",
+            "ua": "https://telegra.ph/Kak-ispolzovat-Passcypher-Instrukciya-06-03",
+        }[lang]
+
+        self.ENCRYPT = {
+            "en": "https://telegra.ph/Passwords-Encryption-Process-06-02",
+            "ru": "https://telegra.ph/Process-zashirofki-parolej-06-03",
+            "ua": "https://telegra.ph/Process-zashirofki-parolej-06-03",
+        }[lang]
+
+        self.DECRYPT = {
+            "en": "https://telegra.ph/Passwords-Decryption-Process-06-02",
+            "ru": "https://telegra.ph/Process-deshifrovki-parolej-06-09",
+            "ua": "https://telegra.ph/Process-deshifrovki-parolej-06-09",
+        }[lang]
+
+        self.GOOGLE_AUTH = {
+            "en": "https://telegra.ph/Passcypher-Google-Authenticator-06-02",
+            "ru": "https://telegra.ph/Passcypher-Ispolzovanie-Google-Authenticator-06-07",
+            "ua": "https://telegra.ph/Passcypher-Ispolzovanie-Google-Authenticator-06-07",
+        }[lang]
+
+
+@lru_cache()
+def links(lang) -> Links:
+    return Links(lang)
 
 
 def get_text(language, key):

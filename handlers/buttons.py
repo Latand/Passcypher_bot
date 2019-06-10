@@ -4,7 +4,7 @@ from filters import *
 from google_auth import *
 from inline_button import *
 from main_bot import bot, dp
-from messages import allowed_chars, Other_Texts, Links
+from messages import allowed_chars, Other_Texts, links
 from some_functions import *
 from states import *
 
@@ -30,14 +30,7 @@ async def decode_m(message: types.Message):
 
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    if lang == "en":
-        await message.reply(Links.DECRYPT)
-        return
-    text = get_text(lang, "describe de 1")
-    await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
-        text=[get_text(lang, "next")],
-        callback=["describe_de 2"]
-    ).inline_keyboard)
+    await message.reply(links(lang).DECRYPT)
 
 
 @dp.message_handler(Buttons("INFO"))
@@ -46,19 +39,7 @@ async def info_m(message: types.Message):
 
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    if lang == "en":
-        await message.reply(Links.INSTRUCTION)
-        return
-    text = get_text(lang, "describe en 1")
-    await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
-        text=[get_text(lang, "next")],
-        callback=["describe_en 2"]
-    ).inline_keyboard)
-    text = get_text(lang, "describe de 1")
-    await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
-        text=[get_text(lang, "next")],
-        callback=["describe_de 2"]
-    ).inline_keyboard)
+    await message.reply(links(lang).INSTRUCTION)
 
 
 @dp.message_handler(Buttons("LANGUAGE"))
@@ -79,7 +60,7 @@ async def set_google_auth(message: types.Message):
     increase_message_counter()
     chat_id = message.chat.id
     lang = get_language(chat_id)
-    text = Links.GOOGLE_AUTH + "\n\n"
+    text = links(lang).GOOGLE_AUTH + "\n\n"
     if has_g_auth(chat_id):
         if enabled_g_auth(chat_id):
             await bot.send_message(chat_id, text + get_text(lang, "reset gauth"), reply_markup=ListOfButtons(
