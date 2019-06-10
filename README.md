@@ -60,7 +60,7 @@ You will need <b>Python 3.7+</b> to use this bot!
 1. Clone the repository
 2. Install the MYSQL on your server
 3. Install requirements <code>pip install -r requirements.txt</code>
-4. Run <code>python3.7 install.py</code>
+4. Run <code>python3.7 install.py</code> and follow the instructions
 5. Run <code>python3.7 main_bot.py</code>
  
 # TODO
