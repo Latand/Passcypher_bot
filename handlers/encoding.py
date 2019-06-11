@@ -79,36 +79,38 @@ async def encoded(message: types.Message, state: FSMContext):
         return
     async with state.proxy() as data:
         data["master_pass"] = message.text
-        if not data.get("encrypt_from_saved"):
-            await Encode.PASSWORD.set()
-            await bot.send_message(chat_id, get_text(lang, "password").format(allowed_chars=allowed_chars))
-        else:
-            password = data.get("to_encrypt")
-            master_pass = data.get("master_pass")
-            if not password:
-                await message.reply("Password not found.")
-                await state.finish()
-                return
-            if len(password) > 400:
-                await bot.send_message(chat_id, get_text(lang, "large"))
-                await state.finish()
-                return
-            elif not master_pass:
-                await message.reply("Master Password not found.")
-                await state.finish()
-                return
 
-            text, code = encode(password.replace("\n", "\\n"), master_pass)
-            if master_pass == get_google_auth(chat_id):
-                hint = "Google Authenticator"
-            else:
-                hint = master_pass[:2] + "***********"
-            await bot.send_message(chat_id, get_text(lang, "result_encode").format(
-                passw=text, code=code,
-                hint=f"{hint}"
-            ))
+        password = data.get("to_encrypt")
+        master_pass = data.get("master_pass")
+
+    if not data.get("encrypt_from_saved"):
+        await Encode.PASSWORD.set()
+        await bot.send_message(chat_id, get_text(lang, "password").format(allowed_chars=allowed_chars))
+    else:
+        if not password:
+            await message.reply("Password not found.")
             await state.finish()
-            increase_message_counter(password=True)
+            return
+        if len(password) > 400:
+            await bot.send_message(chat_id, get_text(lang, "large"))
+            await state.finish()
+            return
+        elif not master_pass:
+            await message.reply("Master Password not found.")
+            await state.finish()
+            return
+
+        text, code = encode(password.replace("\n", "\\n"), master_pass)
+        if master_pass == get_google_auth(chat_id):
+            hint = "Google Authenticator"
+        else:
+            hint = master_pass[:2] + "***********"
+        await bot.send_message(chat_id, get_text(lang, "result_encode").format(
+            passw=text, code=code,
+            hint=f"{hint}"
+        ))
+        await state.finish()
+        increase_message_counter(password=True)
 
     await asyncio.sleep(10)
     await message.delete()
