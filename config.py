@@ -1,9 +1,8 @@
 import os
-
 TOKEN = os.environ.get("BOT_TOKEN_CYPHER")
 
 sql_config = {
-    "host": 'localhost',
+    "host": os.environ.get("SQL_HOST"),
     "user": os.environ.get("SQL_USER"),
     "password": os.environ.get("SQL_PASS"),
     "db": os.environ.get("SQL_DB"),
