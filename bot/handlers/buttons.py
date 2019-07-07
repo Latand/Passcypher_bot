@@ -7,7 +7,7 @@ from bot.aiogram_help.states import Encode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth, has_g_auth
 from bot.utils.some_functions import increase_message_counter
 from bot.aiogram_help.inline_button import ListOfButtons
-from messages import allowed_chars
+from bot.utils.some_functions import allowed_chars
 
 
 @dp.message_handler(Buttons("🔒 Encode"))

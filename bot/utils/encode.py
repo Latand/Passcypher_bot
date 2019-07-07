@@ -1,7 +1,6 @@
 from bot.utils.secret import key_func
 import random
-from messages import to_mix
-
+from bot.utils.some_functions import to_mix
 # Sorry for some obfuscation, but you'll easily reverse it if you want :)
 
 

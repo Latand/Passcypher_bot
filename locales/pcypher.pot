@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-07 10:46+0100\n"
+"POT-Creation-Date: 2019-07-07 12:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgid ""
 "Press /g_auth_info\n"
 msgstr ""
 
-#: bot/handlers/buttons.py:28 bot/handlers/encoding.py:31
-#: bot/handlers/encoding.py:122
+#: bot/handlers/buttons.py:28 bot/handlers/encoding.py:32
+#: bot/handlers/encoding.py:123
 msgid ""
 "Enter phrase you want to encrypt.\n"
 "It should be under 400 characters, for best results there should be only "
@@ -71,13 +71,13 @@ msgstr ""
 msgid "Google Authenticator is not set for you. Press /g_auth_info"
 msgstr ""
 
-#: bot/handlers/decoding.py:26 bot/handlers/decoding.py:85
+#: bot/handlers/decoding.py:27 bot/handlers/decoding.py:89
 msgid "Error. Wrong file"
 msgstr ""
 
-#: bot/handlers/decoding.py:33 bot/handlers/decoding.py:57
-#: bot/handlers/decoding.py:92 bot/handlers/encoding.py:21
-#: bot/handlers/encoding.py:51
+#: bot/handlers/decoding.py:34 bot/handlers/decoding.py:58
+#: bot/handlers/decoding.py:96 bot/handlers/encoding.py:22
+#: bot/handlers/encoding.py:52
 msgid ""
 "\n"
 "Please enter your master password.\n"
@@ -86,49 +86,50 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bot/handlers/decoding.py:40 bot/handlers/decoding.py:64
-#: bot/handlers/decoding.py:99
+#: bot/handlers/decoding.py:41 bot/handlers/decoding.py:65
+#: bot/handlers/decoding.py:103
 msgid "Enter the code from the app"
 msgstr ""
 
-#: bot/handlers/decoding.py:53
+#: bot/handlers/decoding.py:54
 msgid "Error"
 msgstr ""
 
-#: bot/handlers/decoding.py:78 bot/handlers/encoding.py:226
+#: bot/handlers/decoding.py:77 bot/handlers/decoding.py:82
+#: bot/handlers/encoding.py:225 bot/handlers/encoding.py:230
 msgid "INVALID FILE"
 msgstr ""
 
-#: bot/handlers/decoding.py:123
+#: bot/handlers/decoding.py:127
 msgid ""
 "An error has occurred, you lost the Google authenticator settings\n"
 "Please re-configure it once again /g_auth_info"
 msgstr ""
 
-#: bot/handlers/decoding.py:132 bot/handlers/decoding.py:135
+#: bot/handlers/decoding.py:136 bot/handlers/decoding.py:139
 #: bot/handlers/setup_gauth.py:136 bot/handlers/setup_gauth.py:147
 msgid "Code is incorrect, try again or /cancel"
 msgstr ""
 
-#: bot/handlers/decoding.py:148
+#: bot/handlers/decoding.py:152
 msgid ""
 "\n"
 "Your decoded password is inside citation marks '<code>{password}</code>'"
 msgstr ""
 
-#: bot/handlers/encoding.py:63 bot/handlers/encoding.py:133
-#: bot/handlers/encoding.py:178
+#: bot/handlers/encoding.py:64 bot/handlers/encoding.py:134
+#: bot/handlers/encoding.py:179
 msgid ""
 "Error has occurred... Too long phrase. Try to enter a phrase under 400 "
 "characters."
 msgstr ""
 
-#: bot/handlers/encoding.py:67 bot/handlers/encoding.py:138
-#: bot/handlers/encoding.py:182
+#: bot/handlers/encoding.py:68 bot/handlers/encoding.py:139
+#: bot/handlers/encoding.py:183
 msgid "Master Password not found."
 msgstr ""
 
-#: bot/handlers/encoding.py:73
+#: bot/handlers/encoding.py:74
 msgid ""
 "<code>----------------------------\n"
 "ENCRYPTION STARTS HERE\n"
@@ -147,7 +148,7 @@ msgid ""
 "need to decode it.\n"
 msgstr ""
 
-#: bot/handlers/encoding.py:102 bot/handlers/setup_gauth.py:18
+#: bot/handlers/encoding.py:103 bot/handlers/setup_gauth.py:18
 msgid ""
 "To encrypt your phrase/file you need to enter a master password each time"
 " you want to encrypt or decrypt, or you can enable <b>Google "
@@ -159,15 +160,15 @@ msgid ""
 "/reset_google_auth\n"
 msgstr ""
 
-#: bot/handlers/encoding.py:110 bot/handlers/setup_gauth.py:26
+#: bot/handlers/encoding.py:111 bot/handlers/setup_gauth.py:26
 msgid "Setup"
 msgstr ""
 
-#: bot/handlers/encoding.py:129
+#: bot/handlers/encoding.py:130
 msgid "Password not found."
 msgstr ""
 
-#: bot/handlers/encoding.py:147 bot/handlers/encoding.py:192
+#: bot/handlers/encoding.py:148 bot/handlers/encoding.py:193
 msgid ""
 "<code>----------------------------\n"
 "ENCRYPTION STARTS HERE\n"
@@ -187,7 +188,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: bot/handlers/encoding.py:232
+#: bot/handlers/encoding.py:236
 msgid ""
 "\n"
 "----------------------------\n"
@@ -203,41 +204,42 @@ msgid ""
 "Hint: {hint}\n"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:16
+#: bot/handlers/main_handlers.py:21 bot/handlers/main_handlers.py:51
+#: bot/handlers/main_handlers.py:105
+msgid "🔒 Encode"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:22 bot/handlers/main_handlers.py:52
+msgid "🔑 Decode"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:23 bot/handlers/main_handlers.py:53
+msgid "ℹ️How to use"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:24 bot/handlers/main_handlers.py:54
+msgid "🇬🇧 Set language"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:25 bot/handlers/main_handlers.py:55
+msgid "🔐 Two step verification"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:26 bot/handlers/main_handlers.py:56
+msgid "📝 Write a review"
+msgstr ""
+
+#: bot/handlers/main_handlers.py:31
 msgid ""
 "\n"
 "Hello, <b>{}</b>\n"
 "This bot is designed to encrypt your passwords so you can store them "
 "publicly, for example in your <code>Telegram saved messages.</code>\n"
 "\n"
-"Firstly, let's choose your language\n"
+"You can choose your language using command /set_language\n"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:39 bot/handlers/main_handlers.py:93
-msgid "🔒 Encode"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:40
-msgid "🔑 Decode"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:41
-msgid "ℹ️How to use"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:42
-msgid "🇬🇧 Set language"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:43
-msgid "🔐 Two step verification"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:44
-msgid "📝 Write a review"
-msgstr ""
-
-#: bot/handlers/main_handlers.py:48
+#: bot/handlers/main_handlers.py:60
 msgid ""
 "Language has changed to 🇬🇧<b>EN</b>\n"
 "\n"
@@ -249,7 +251,7 @@ msgid ""
 "Start using this bot: /info"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:62
+#: bot/handlers/main_handlers.py:74
 msgid ""
 "\n"
 "<b>{users}</b> users are using this bot. \n"
@@ -259,14 +261,14 @@ msgid ""
 "        "
 msgstr ""
 
-#: bot/handlers/main_handlers.py:77
+#: bot/handlers/main_handlers.py:89
 msgid ""
 "\n"
 "Hello, <b>{}</b>\n"
 "Firstly, let's choose your language\n"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:95
+#: bot/handlers/main_handlers.py:107
 msgid ""
 "\n"
 "Looks like the input is invalid...\n"
@@ -276,7 +278,7 @@ msgid ""
 "Perhaps you wanted to encrypt this message? Click <b> Encrypt </b>."
 msgstr ""
 
-#: bot/handlers/main_handlers.py:108 bot/handlers/main_handlers.py:113
+#: bot/handlers/main_handlers.py:120 bot/handlers/main_handlers.py:125
 msgid "Seems like you have an unfinished business..."
 msgstr ""
 

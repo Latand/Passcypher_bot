@@ -4,13 +4,14 @@ import re
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import BadRequest
 
 from app import bot, dp, _
 from bot.aiogram_help.states import Decode
 from bot.utils.decode import decode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth, has_g_auth, verify
 from bot.utils.some_functions import increase_message_counter
-from messages import Other_Texts
+from bot.utils.some_functions import Other_Texts
 
 
 @dp.message_handler(regexp="ENCRYPTION STARTS HERE")
@@ -70,7 +71,10 @@ async def decode_start(message: types.Message, state: FSMContext):
     increase_message_counter()
     chat_id = message.chat.id
     file_id = message.document.file_id
-    await bot.download_file_by_id(file_id, "to_decode.txt")
+    try:
+        await bot.download_file_by_id(file_id, "to_decode.txt")
+    except BadRequest:
+        return await message.reply(_("INVALID FILE"))
     with open("to_decode.txt", "r") as file:
         try:
             text = file.read()

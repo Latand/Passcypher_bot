@@ -2,15 +2,16 @@ import asyncio
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import BadRequest
 
 from app import bot, dp, _
 from bot.aiogram_help.filters import Callbacks
+from bot.aiogram_help.inline_button import ListOfButtons
 from bot.aiogram_help.states import Encode
 from bot.utils.encode import encode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth
+from bot.utils.some_functions import allowed_chars
 from bot.utils.some_functions import increase_message_counter
-from bot.aiogram_help.inline_button import ListOfButtons
-from messages import allowed_chars
 
 
 @dp.message_handler(commands=["encode", "e"])
@@ -218,7 +219,10 @@ async def encoded(message: types.Message, state: FSMContext):
     chat_id = message.chat.id
     master_pass = (await state.get_data()).get("master_pass")
     file_id = message.document.file_id
-    await bot.download_file_by_id(file_id, "to_encode.txt")
+    try:
+        await bot.download_file_by_id(file_id, "to_encode.txt")
+    except BadRequest:
+        return await message.reply(_("INVALID FILE"))
     with open("to_encode.txt", "r") as file:
         try:
             text = file.read().replace("\n", "\\n")
