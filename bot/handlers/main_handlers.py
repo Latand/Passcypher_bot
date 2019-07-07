@@ -3,8 +3,12 @@ from aiogram.dispatcher.dispatcher import FSMContext
 from aiogram.utils.exceptions import CantParseEntities, MessageNotModified
 
 from app import bot, dp, _
-from bot.utils.some_functions import increase_message_counter, get_counters
+from bot.utils.some_functions import increase_message_counter, get_counters, sql
 from bot.aiogram_help.inline_button import ListOfButtons
+
+
+def set_language(chat_id, lang):
+    sql.update(table="users", language=lang, condition={"chat_id": chat_id})
 
 
 @dp.message_handler(commands=["start"], state="*")
@@ -12,18 +16,26 @@ async def starting(message: types.Message, state: FSMContext):
     increase_message_counter()
     await state.reset_state()
     chat_id = message.chat.id
+
+    menu = ListOfButtons(
+        text=[_("🔒 Encode"),
+              _("🔑 Decode"),
+              _("ℹ️How to use"),
+              _("🇬🇧 Set language"),
+              _("🔐 Two step verification"),
+              _("📝 Write a review")],
+        align=[2, 2, 2]
+    ).reply_keyboard
+
     await bot.send_message(chat_id,
                            _("""
 Hello, <b>{}</b>
 This bot is designed to encrypt your passwords so you can store them publicly, for example in your \
 <code>Telegram saved messages.</code>
 
-Firstly, let's choose your language
+You can choose your language using command /set_language
 """).format(message.from_user.first_name),
-                           reply_markup=ListOfButtons(
-                               text=["English", "Русский", "Українська"],
-                               callback=["language en", "language ru", "language ua"]
-                           ).inline_keyboard)
+                           reply_markup=menu)
 
 
 @dp.callback_query_handler(text_contains="language")
@@ -34,7 +46,7 @@ async def change_language(call: types.CallbackQuery):
     except MessageNotModified:
         pass
     language = call.data.split()[1]
-    # set_language(chat_id, language) TODO
+    set_language(chat_id, language)
     menu = ListOfButtons(
         text=[_("🔒 Encode"),
               _("🔑 Decode"),
@@ -80,7 +92,7 @@ Firstly, let's choose your language
 """).format(message.from_user.first_name),
                                reply_markup=ListOfButtons(
                                    text=["English", "Русский", "Українська"],
-                                   callback=["language en", "language ru", "language ua"]
+                                   callback=["language en", "language ru", "language uk"]
                                ).inline_keyboard)
     except CantParseEntities as err:
         print(f"Error. CantParseEntities: {err}")
