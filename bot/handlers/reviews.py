@@ -1,22 +1,27 @@
+from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 import config
-from filters import *
-from inline_button import *
-from main_bot import bot, dp, logging, throttling_message
-from some_functions import *
-from states import *
+from app import bot, dp, logging, throttling_message, _
+from bot.aiogram_help.filters import Buttons, Callbacks
+from bot.aiogram_help.states import Other
+from bot.utils.some_functions import increase_message_counter
+from bot.aiogram_help.inline_button import ListOfButtons
 
 
-@dp.message_handler(Buttons("REVIEWS"))
+@dp.message_handler(Buttons("📝 Write a review"))
 async def reviews_button(message: types.Message):
     increase_message_counter()
 
     chat_id = message.chat.id
-    lang = get_language(chat_id)
-    await bot.send_message(chat_id, get_text(lang, "advice"),
+    await bot.send_message(chat_id, _("""Please, it is important for me to receive a response and advice from you.
+How would you change the bot? Any comments are appreciated. 
+
+Your comment will be posted <b>anonymously</b> in our channel @pcypher
+Or you can just rate the bot using this link: https://t.me/pcypher/16
+"""),
                            reply_markup=ListOfButtons(
-                               text=[get_text(lang, "g_advice")],
+                               text=[_("Give an advice to the bot")],
                                callback=["give_advice"]
                            ).inline_keyboard)
 
@@ -24,12 +29,17 @@ async def reviews_button(message: types.Message):
 @dp.callback_query_handler(Callbacks("give_advice"))
 async def give_advice(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
-    lang = get_language(chat_id)
     await Other.REVIEW.set()
     await bot.edit_message_reply_markup(chat_id, call.message.message_id)
-    last_message = await bot.send_message(chat_id, get_text(lang, "adv_message").format(advice=" "),
+    last_message = await bot.send_message(chat_id, _("""
+Your advice: 
+
+{advice}
+
+Write your advice in the next message.
+""").format(advice=" "),
                                           reply_markup=ListOfButtons(
-                                              text=[get_text(lang, "cancel")],
+                                              text=[_("Cancel")],
                                               callback=["cancel"]
                                           ).inline_keyboard)
     await state.update_data(last_message=last_message.message_id)
@@ -38,18 +48,23 @@ async def give_advice(call: types.CallbackQuery, state: FSMContext):
 @dp.message_handler(state=Other.REVIEW)
 async def your_advice(message: types.Message, state: FSMContext):
     chat_id = message.chat.id
-    lang = get_language(chat_id)
     try:
         last_message = (await state.get_data()).get("last_message")
         await bot.edit_message_reply_markup(chat_id, last_message)
     except Exception as e:
         logging.error(f"{e}")
     await state.update_data(advice=message.text)
-    last_message = await bot.send_message(chat_id, get_text(lang, "adv_message").format(advice=message.text),
+    last_message = await bot.send_message(chat_id, _("""
+Your advice: 
+
+{advice}
+
+Write your advice in the next message.
+""").format(advice=message.text),
                                           reply_markup=ListOfButtons(
                                               text=[
-                                                  get_text(lang, "send_adv"),
-                                                  get_text(lang, "cancel")],
+                                                  _("Publish"),
+                                                  _("Cancel")],
                                               callback=[
                                                   "publish",
                                                   "cancel"]
@@ -61,7 +76,6 @@ async def your_advice(message: types.Message, state: FSMContext):
 @dp.callback_query_handler(state=Other.REVIEW)
 async def cancel_or_publish(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
-    lang = get_language(chat_id)
 
     try:
         last_message = (await state.get_data()).get("last_message")
@@ -70,11 +84,15 @@ async def cancel_or_publish(call: types.CallbackQuery, state: FSMContext):
         logging.error(f"{e}")
 
     if call.data == "cancel":
-        await bot.send_message(chat_id, get_text(lang, "cancelled"))
+        await bot.send_message(chat_id, _("Cancelled"))
         await state.finish()
         return
     elif call.data == "publish":
         if await throttling_message(chat_id):
             return
         advice = (await state.get_data()).get("advice")
-        await bot.send_message(config.review_channel, get_text(lang, "post_advice").format(advice))
+        await bot.send_message(config.review_channel, _("""
+#Reviews Post:
+
+<b>{}</b>
+""").format(advice))

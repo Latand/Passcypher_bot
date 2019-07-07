@@ -1,7 +1,7 @@
-from aiogram.dispatcher.filters import BoundFilter
 from aiogram import types
-from languages import *
-from messages import get_text
+from aiogram.dispatcher.filters import BoundFilter
+
+from app import _
 from config import admin_id
 
 
@@ -10,9 +10,7 @@ class Buttons(BoundFilter):
         self.key = key
 
     async def check(self, message: types.Message):
-        chat_id = message.chat.id
-        language = get_language(chat_id)
-        return message.text == get_text(language, self.key)
+        return _(self.key) == message.text
 
 
 class Callbacks(BoundFilter):

@@ -3,8 +3,6 @@ from dataclasses import dataclass
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
-from messages import get_text
-
 
 @dataclass
 class ListOfButtons:
@@ -59,15 +57,3 @@ def generate_reply_keyboard(args: ListOfButtons) -> ReplyKeyboardMarkup:
             keyboard.row(*[KeyboardButton(text=str(text)) for text in args.text[count:count + row_size]])
             count += row_size
     return keyboard
-
-
-def menu(lang):
-    return ListOfButtons(
-        text=[get_text(lang, "ENCODE"),
-              get_text(lang, "DECODE"),
-              get_text(lang, "INFO"),
-              get_text(lang, "LANGUAGE"),
-              get_text(lang, "GOOGLE_AUTH"),
-              get_text(lang, "REVIEWS")],
-        align=[2, 2, 2]
-    ).reply_keyboard

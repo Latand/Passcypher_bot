@@ -1,5 +1,5 @@
 import logging
-from main_bot import dp
+from app import dp
 
 
 @dp.errors_handler()

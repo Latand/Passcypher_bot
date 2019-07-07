@@ -3,8 +3,7 @@ import os
 import pyotp
 import pyqrcode
 import re
-from sql import sql
-import logging
+from bot.utils.sql import sql
 
 
 def create_google_auth(chat_id: int):

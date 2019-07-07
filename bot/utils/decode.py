@@ -1,4 +1,4 @@
-from secret import key_func_back
+from bot.utils.secret import key_func_back
 # Sorry for some obfuscation, but you'll easily reverse it if you want :)
 
 

@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 TOKEN = os.environ.get("BOT_TOKEN_CYPHER")
 
 sql_config = {
@@ -8,6 +10,11 @@ sql_config = {
     "db": os.environ.get("SQL_DB"),
     "charset": 'utf8mb4'
 }
+
+I18N_DOMAIN = 'pcypher'
+BASE_DIR = Path(__file__).parent
+LOCALES_DIR = BASE_DIR / 'locales'
+
 
 Reviews_state = False
 # Set Reviews_state = True for enabling opportunity to leave reviews (probably not needed)

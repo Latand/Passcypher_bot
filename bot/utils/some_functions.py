@@ -1,4 +1,4 @@
-from sql import sql
+from bot.utils.sql import sql
 
 
 def increase_message_counter(password=False):

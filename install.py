@@ -47,7 +47,7 @@ def setup_secret():
 
 def setup_sql():
     print("Starting to create tables")
-    from sql import sql
+    from bot.utils.sql import sql
 
     sql.execute("""
     CREATE TABLE `users` (

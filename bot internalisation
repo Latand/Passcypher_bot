@@ -1,0 +1,14 @@
+Internalize your bot
+
+FIRST TIME
+1. pybabel extract bot/ -o locales/pcypher.pot
+2. pybabel init -i locales/pcypher.pot -d locales -D pcypher -l en
+3. pybabel init -i locales/pcypher.pot -d locales -D pcypher -l ru
+4. pybabel init -i locales/pcypher.pot -d locales -D pcypher -l uk
+5. pybabel compile -d locales -D pcypher
+
+
+UPDATING
+1. pybabel extract bot/ -o locales/pcypher.pot
+2. pybabel update -d locales -D pcypher -i locales/pcypher.pot
+3. pybabel compile -d locales -D pcypher

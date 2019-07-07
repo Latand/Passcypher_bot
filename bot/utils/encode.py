@@ -1,4 +1,4 @@
-from secret import key_func
+from bot.utils.secret import key_func
 import random
 from messages import to_mix
 
