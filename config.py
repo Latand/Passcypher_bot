@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 TOKEN = os.environ.get("BOT_TOKEN_CYPHER")
-
+import secrets
 sql_config = {
     "host": os.environ.get("SQL_HOST"),
     "user": os.environ.get("SQL_USER"),
@@ -24,7 +24,7 @@ admin_id = 362089194
 Webhook_state = False
 
 # Set Webhook_state = True for enabling Webhook.
-WEBHOOK_PATH = f'/{TOKEN}'
+WEBHOOK_PATH = f'/{secrets.token_urlsafe(128)}'
 WEBHOOK_HOST = os.environ.get("BOT_HOST")
 WEBHOOK_URL = f"https://{WEBHOOK_HOST}{WEBHOOK_PATH}/"
 WEBAPP_PORT = os.environ.get("BOT_PORT")
