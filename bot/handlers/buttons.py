@@ -57,7 +57,7 @@ Let's choose your language
 """).format(message.from_user.first_name),
                            reply_markup=ListOfButtons(
                                text=["English", "Русский", "Українська"],
-                               callback=["language en", "language ru", "language ua"]
+                               callback=["language en", "language ru", "language uk"]
                            ).inline_keyboard)
 
 

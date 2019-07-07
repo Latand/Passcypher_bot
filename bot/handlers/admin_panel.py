@@ -12,7 +12,7 @@ from bot.utils.some_functions import increase_message_counter, sql
 
 @dp.message_handler(IsAdmin(), commands=["send_to_all_ru",
                                          "send_to_all_en",
-                                         "send_to_all_ua"])
+                                         "send_to_all_uk"])
 async def encode_m(message: types.Message):
     increase_message_counter()
 
