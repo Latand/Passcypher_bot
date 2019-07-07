@@ -43,7 +43,7 @@ async def statistics(message: types.Message):
     await bot.send_message(chat_id, get_text(lang, "stats").format(**get_counters()))
 
 
-@dp.message_handler(commands=["set_language"])
+@dp.message_handler(commands=["set_language"])111
 async def lang_choose(message: types.Message):
     chat_id = message.chat.id
 
