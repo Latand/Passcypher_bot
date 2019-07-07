@@ -15,13 +15,7 @@ class ACLMiddleware(I18nMiddleware):
 
     async def get_user_locale(self, action, args):
         user = types.User.get_current()
-        *_, data = args
-        lang = user_langs.get(user.id)
-        if lang is None:
-            user_langs[user.id] = 'en'
-            lang = 'uk'
-        data['locale'] = lang
-        return lang
+        return get_lang(user.id) or user.locale
 
 
 def setup_middleware(dp):

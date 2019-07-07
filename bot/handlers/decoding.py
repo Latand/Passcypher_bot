@@ -11,7 +11,7 @@ from bot.aiogram_help.states import Decode
 from bot.utils.decode import decode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth, has_g_auth, verify
 from bot.utils.some_functions import increase_message_counter
-from bot.utils.some_functions import Other_Texts
+from bot.utils.some_functions import OtherTexts
 
 
 @dp.message_handler(regexp="ENCRYPTION STARTS HERE")
@@ -19,14 +19,14 @@ async def decode_start(message: types.Message, state: FSMContext):
     increase_message_counter()
     chat_id = message.chat.id
     text = message.text
-    expression = re.compile(f"{Other_Texts.START}(.*){Other_Texts.END}")
+    expression = re.compile(f"{OtherTexts.START}(.*){OtherTexts.END}")
     try:
         extract_encoded = expression.findall(text)[0]
 
     except IndexError:
         await bot.send_message(chat_id, _("Error. Wrong file"))
         return
-    expression = re.compile(f"{Other_Texts.END}(.*){Other_Texts.END_CODE}")
+    expression = re.compile(f"{OtherTexts.END}(.*){OtherTexts.END_CODE}")
     code = expression.findall(text)[0]
 
     await state.update_data(password=extract_encoded, code=code)
@@ -81,14 +81,14 @@ async def decode_start(message: types.Message, state: FSMContext):
         except UnicodeDecodeError:
             await bot.send_message(chat_id, _("INVALID FILE"))
             return
-    expression = re.compile(f"{Other_Texts.START}(.*){Other_Texts.END}")
+    expression = re.compile(f"{OtherTexts.START}(.*){OtherTexts.END}")
     try:
         extract_encoded = expression.findall(text)[0]
 
     except IndexError:
         await bot.send_message(chat_id, _("Error. Wrong file"))
         return
-    expression = re.compile(f"{Other_Texts.END}(.*){Other_Texts.END_CODE}")
+    expression = re.compile(f"{OtherTexts.END}(.*){OtherTexts.END_CODE}")
     code = expression.findall(text)[0]
     await state.update_data(password=extract_encoded, code=code, doc=True)
 

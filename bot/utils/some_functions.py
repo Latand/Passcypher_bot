@@ -17,7 +17,7 @@ allowed_chars = 'qwertyuiopasdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890йцук�
 to_mix = 'qwertyuiop asdfghjklzxcvbnm,.!£$%^&*()[];_-+1234567890 йцукенгшщзхъфывапролджэячсмитьбю'
 
 
-class Other_Texts:
+class OtherTexts:
     START = """----------------------------
 ENCRYPTION STARTS HERE
 ----------------------------

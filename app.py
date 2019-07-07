@@ -10,6 +10,7 @@ from aiogram.contrib.middlewares.i18n import I18nMiddleware
 
 from config import (I18N_DOMAIN, WEBHOOK_URL, LOCALES_DIR, Reviews_state,
                     TOKEN, Webhook_state, WEBAPP_HOST, WEBAPP_PORT)
+from bot.middlewares.language_middleware import setup_middleware
 
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
@@ -32,8 +33,8 @@ async def on_startup(dp):
 
 
 # Setup i18n middleware
-i18n = I18nMiddleware(I18N_DOMAIN, LOCALES_DIR)
-dp.middleware.setup(i18n)
+
+i18n = setup_middleware(dp)
 
 # Alias for gettext method
 _ = i18n.gettext
@@ -50,6 +51,7 @@ if __name__ == '__main__':
     from bot.handlers.admin_panel import *
     from bot.handlers.main_handlers import *
     from bot.handlers.errors import *
+
     if Webhook_state:
         executor.start_webhook(dispatcher=dp, webhook_path="",
                                host=WEBAPP_HOST, port=WEBAPP_PORT, on_startup=on_startup)

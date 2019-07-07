@@ -11,11 +11,17 @@ def set_language(chat_id, lang):
     sql.update(table="users", language=lang, condition={"chat_id": chat_id})
 
 
+def check_if_new_user(chat_id):
+    if not sql.select(where="users", condition={"chat_id": chat_id}):
+        sql.insert(table="users", chat_id=chat_id)
+
+
 @dp.message_handler(commands=["start"], state="*")
 async def starting(message: types.Message, state: FSMContext):
     increase_message_counter()
     await state.reset_state()
     chat_id = message.chat.id
+    check_if_new_user(chat_id)
 
     menu = ListOfButtons(
         text=[_("🔒 Encode"),
@@ -39,7 +45,7 @@ You can choose your language using command /set_language
 
 
 @dp.callback_query_handler(text_contains="language")
-async def change_language(call: types.CallbackQuery):
+async def change_language(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
     try:
         await bot.edit_message_reply_markup(chat_id, call.message.message_id, reply_markup=None)
