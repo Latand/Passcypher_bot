@@ -3,17 +3,8 @@ from aiogram.dispatcher.dispatcher import FSMContext
 from aiogram.utils.exceptions import CantParseEntities, MessageNotModified
 
 from app import bot, dp, _
-from bot.utils.some_functions import increase_message_counter, get_counters, sql
+from bot.utils.some_functions import increase_message_counter, get_counters, check_if_new_user, set_language
 from bot.aiogram_help.inline_button import ListOfButtons
-
-
-def set_language(chat_id, lang):
-    sql.update(table="users", language=lang, condition={"chat_id": chat_id})
-
-
-def check_if_new_user(chat_id):
-    if not sql.select(where="users", condition={"chat_id": chat_id}):
-        sql.insert(table="users", chat_id=chat_id)
 
 
 @dp.message_handler(commands=["start"], state="*")

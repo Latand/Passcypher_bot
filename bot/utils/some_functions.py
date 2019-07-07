@@ -30,3 +30,12 @@ CODE
 """
     END_CODE = """
 ----------------------------"""
+
+
+def set_language(chat_id, lang):
+    sql.update(table="users", language=lang, condition={"chat_id": chat_id})
+
+
+def check_if_new_user(chat_id):
+    if not sql.select(where="users", condition={"chat_id": chat_id}):
+        sql.insert(table="users", chat_id=chat_id)
