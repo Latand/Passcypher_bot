@@ -13,18 +13,6 @@ class Buttons(BoundFilter):
         return _(self.key) == message.text
 
 
-class Callbacks(BoundFilter):
-    def __init__(self, key, contains=False):
-        self.key = key
-        self.contains = contains
-
-    async def check(self, call: types.CallbackQuery):
-        if self.contains:
-            return self.key in call.data
-
-        return self.key == call.data
-
-
 class IsAdmin(BoundFilter):
     admin_id = admin_id
 

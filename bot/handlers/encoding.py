@@ -5,7 +5,6 @@ from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
 from app import bot, dp, _
-from bot.aiogram_help.filters import Callbacks
 from bot.aiogram_help.inline_button import ListOfButtons
 from bot.aiogram_help.states import Encode
 from bot.utils.encode import encode
@@ -36,7 +35,7 @@ It should be under 400 characters, for best results there should be only charact
 """).format(allowed_chars=allowed_chars))
 
 
-@dp.callback_query_handler(Callbacks("encrypt_saved"))
+@dp.callback_query_handler(text="encrypt_saved")
 async def encode_saved(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.from_user.id
     password_message = call.message.reply_to_message

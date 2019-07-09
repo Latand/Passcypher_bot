@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 
 import config
 from app import bot, dp, logging, throttling_message, _
-from bot.aiogram_help.filters import Buttons, Callbacks
+from bot.aiogram_help.filters import Buttons
 from bot.aiogram_help.states import Other
 from bot.utils.some_functions import increase_message_counter
 from bot.aiogram_help.inline_button import ListOfButtons
@@ -26,7 +26,7 @@ Or you can just rate the bot using this link: https://t.me/pcypher/16
                            ).inline_keyboard)
 
 
-@dp.callback_query_handler(Callbacks("give_advice"))
+@dp.callback_query_handler(text="give_advice")
 async def give_advice(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
     await Other.REVIEW.set()

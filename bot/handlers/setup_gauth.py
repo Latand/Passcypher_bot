@@ -4,7 +4,6 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from app import bot, dp, logging, _
-from bot.aiogram_help.filters import Callbacks
 from bot.aiogram_help.states import GoogleAuth
 from bot.utils.google_auth import has_g_auth, enabled_g_auth, verify, create_google_auth
 from bot.utils.some_functions import increase_message_counter, sql
@@ -48,7 +47,7 @@ async def info(message: types.Message):
         await bot.send_message(chat_id, _("Google Authenticator is not set for you. Press /g_auth_info"))
 
 
-@dp.callback_query_handler(Callbacks("turn", contains=True))
+@dp.callback_query_handler(text_contains="turn")
 async def g_auth(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
     enabled = call.data.split()[1]
@@ -61,7 +60,7 @@ async def g_auth(call: types.CallbackQuery, state: FSMContext):
         logging.error(f"{e}")
 
 
-@dp.callback_query_handler(Callbacks("g_auth_setup"))
+@dp.callback_query_handler(text="g_auth_setup")
 async def g_auth(call: types.CallbackQuery, state: FSMContext):
     chat_id = call.message.chat.id
     try:

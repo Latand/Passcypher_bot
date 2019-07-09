@@ -110,7 +110,7 @@ Press /g_auth_info
 @dp.message_handler(commands=["cancel"], state=Decode.MASTER_PASSWORD)
 async def decode_1(message: types.Message, state: FSMContext):
     await message.answer("OK.")
-    await dp.current_state().reset_state()
+    await state.reset_state()
 
 
 @dp.message_handler(state=Decode.MASTER_PASSWORD)
@@ -119,7 +119,7 @@ async def decode_1(message: types.Message, state: FSMContext):
 
     chat_id = message.chat.id
     en_password = (await state.get_data()).get("password")
-    code = (await dp.current_state().get_data())["code"]
+    code = (await state.get_data())["code"]
     if not enabled_g_auth(chat_id):
         master = message.text
     else:
