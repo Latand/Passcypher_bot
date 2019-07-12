@@ -37,7 +37,7 @@ async def sender(message: types.Message):
                                                                       "blocked": 0})
     total_users = len(users_list)
     to_edit = await bot.send_message(admin_id, f"Всего живых {total_users}. Послано 0 Юзерам. Текст:{text}")
-    errors = set()
+    errors = 0
     count = 0
     for (user,) in users_list:
         try:
@@ -46,15 +46,16 @@ async def sender(message: types.Message):
         except (BotBlocked, ChatNotFound, UserDeactivated):
             sql.update(table="users", condition={"chat_id": user}, blocked=1)
             logging.info(f"User {user} blocked bot")
+            errors += 1
+
         except Exception as err:
             logging.error(err)
-            errors.add(err)
         finally:
-            await sleep(0.4)
+            await sleep(0.04)
             count += 1
             if count % 10 == 0:
                 await to_edit.edit_text(f"Всего {total_users}. Послано {count} Юзерам.")
-    return len(errors)
+    return errors
 
 
 async def checker():
