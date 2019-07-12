@@ -13,6 +13,12 @@ https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02<br>
 One more link is the instruction for Google Authenticator!
 https://telegra.ph/Passcypher-Google-Authenticator-06-02
 
+# New Features 12/07/2019
+1. Added support i18n for translations
+2. Make the use of standard filters of aiogram
+
+
+
 # New Features
 1. Updated to aiogram 2.0
 2. Stated modified
@@ -51,7 +57,7 @@ You will need <b>Python 3.7+</b> to use this bot!
     -  Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
     -  Mysql database: user, password, db name
 4. Install requirements <code>pip install -r requirements.txt</code>
-5. Run <code>python3.7 install.py</code> and follow the instructions
+5. <s>Run <code>python3.7 install.py</code> and follow the instructions</s> (Needs update)
 6. Run <code>python3.7 main_bot.py</code>
  
  
@@ -60,8 +66,8 @@ You will need <b>Python 3.7+</b> to use this bot!
 1. Clone the repository
 2. Install the MYSQL on your server
 3. Install requirements <code>pip install -r requirements.txt</code>
-4. Run <code>python3.7 install.py</code> and follow the instructions
-5. Run <code>python3.7 main_bot.py</code>
+4. <s>Run <code>python3.7 install.py</code> and follow the instructions</s> (Needs update)
+5. Run <code>python3.7 app.py</code>
  
 # TODO
 1. Configure the Docker 
