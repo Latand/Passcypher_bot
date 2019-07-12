@@ -15,7 +15,7 @@ https://telegra.ph/Passcypher-Google-Authenticator-06-02
 
 # New Features 12/07/2019
 1. Added support i18n for translations
-2. Make the use of standard filters of aiogram
+2. Made the use of standard filters of aiogram
 
 
 
