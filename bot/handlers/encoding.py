@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
 from app import bot, dp, _
-from bot.aiogram_help.inline_button import ListOfButtons
+from bot.aiogram_help.keyboard_maker import ListOfButtons
 from bot.aiogram_help.states import Encode
 from bot.utils.encode import encode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth

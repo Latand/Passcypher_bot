@@ -7,7 +7,7 @@ from app import bot, dp, logging, _
 from bot.aiogram_help.states import GoogleAuth
 from bot.utils.google_auth import has_g_auth, enabled_g_auth, verify, create_google_auth
 from bot.utils.some_functions import increase_message_counter, sql
-from bot.aiogram_help.inline_button import ListOfButtons
+from bot.aiogram_help.keyboard_maker import ListOfButtons
 
 
 @dp.message_handler(commands=["g_auth_info"])
