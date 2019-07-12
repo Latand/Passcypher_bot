@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-07 12:12+0100\n"
+"POT-Creation-Date: 2019-07-12 17:38+0100\n"
 "PO-Revision-Date: 2019-07-07 09:20+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,16 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: bot/handlers/bot_info.py:10 bot/handlers/buttons.py:45
+#: bot/handlers/bot_info.py:10 bot/handlers/buttons.py:46
 msgid "https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02"
 msgstr "https://telegra.ph/Kak-ispolzovat-Passcypher-Instrukciya-06-03"
 
-#: bot/handlers/buttons.py:19
+#: bot/handlers/buttons.py:19 bot/handlers/decoding.py:34
+#: bot/handlers/decoding.py:58 bot/handlers/decoding.py:96
+#: bot/handlers/encoding.py:21 bot/handlers/encoding.py:51
 msgid ""
 "\n"
 "Please enter your master password.\n"
 "You can make everything faster with Google Authenticator! \n"
 "Press /g_auth_info\n"
+"\n"
 msgstr ""
 "Введите свой мастер пароль, который вы хорошо помните.\n"
 "<b> БОТ УДАЛЯЕТ СООБЩЕНИЯ С ПАРОЛЯМИ ЧЕРЕЗ 10 СЕКУНД</b>\n"
@@ -38,8 +41,8 @@ msgstr ""
 "Нажми для подробной информации /g_auth_info\n"
 "\n"
 
-#: bot/handlers/buttons.py:28 bot/handlers/encoding.py:32
-#: bot/handlers/encoding.py:123
+#: bot/handlers/buttons.py:29 bot/handlers/encoding.py:31
+#: bot/handlers/encoding.py:122
 msgid ""
 "Enter phrase you want to encrypt.\n"
 "It should be under 400 characters, for best results there should be only "
@@ -52,11 +55,11 @@ msgstr ""
 "результата использовать символы только из этого списка:\n"
 "<pre>{allowed_chars} </pre>\n"
 
-#: bot/handlers/buttons.py:39
+#: bot/handlers/buttons.py:40
 msgid "https://telegra.ph/Passwords-Decryption-Process-06-02"
 msgstr "https://telegra.ph/Process-deshifrovki-parolej-06-09"
 
-#: bot/handlers/buttons.py:54
+#: bot/handlers/buttons.py:55
 msgid ""
 "\n"
 "Hello, <b>{}</b>\n"
@@ -66,48 +69,30 @@ msgstr ""
 "Привет, <b>{}</b>\n"
 "Давай выберем твой язык\n"
 
-#: bot/handlers/buttons.py:68
+#: bot/handlers/buttons.py:69
 msgid "https://telegra.ph/Passcypher-Google-Authenticator-06-02"
 msgstr "https://telegra.ph/Passcypher-Ispolzovanie-Google-Authenticator-06-07"
 
-#: bot/handlers/buttons.py:72 bot/handlers/buttons.py:79
-#: bot/handlers/setup_gauth.py:35
+#: bot/handlers/buttons.py:73 bot/handlers/buttons.py:80
+#: bot/handlers/setup_gauth.py:33
 msgid "Here you can enable and disable your Google Authenticator settings"
 msgstr "Тут вы можете включать и выключать настройки Google Authenticator"
 
-#: bot/handlers/buttons.py:74 bot/handlers/setup_gauth.py:39
+#: bot/handlers/buttons.py:75 bot/handlers/setup_gauth.py:37
 msgid "Turn off"
 msgstr "Выключить"
 
-#: bot/handlers/buttons.py:81 bot/handlers/setup_gauth.py:45
+#: bot/handlers/buttons.py:82 bot/handlers/setup_gauth.py:43
 msgid "Turn on"
 msgstr "Включить"
 
-#: bot/handlers/buttons.py:84 bot/handlers/setup_gauth.py:48
+#: bot/handlers/buttons.py:85 bot/handlers/setup_gauth.py:46
 msgid "Google Authenticator is not set for you. Press /g_auth_info"
 msgstr "Вы еще не настраивали Google Authenticator. Нажмите /g_auth_info"
 
 #: bot/handlers/decoding.py:27 bot/handlers/decoding.py:89
 msgid "Error. Wrong file"
 msgstr "Ошибка. Неподдерживаемый файл"
-
-#: bot/handlers/decoding.py:34 bot/handlers/decoding.py:58
-#: bot/handlers/decoding.py:96 bot/handlers/encoding.py:22
-#: bot/handlers/encoding.py:52
-msgid ""
-"\n"
-"Please enter your master password.\n"
-"You can make everything faster with Google Authenticator! \n"
-"Press /g_auth_info\n"
-"\n"
-msgstr ""
-"Введите свой мастер пароль, который вы хорошо помните.\n"
-"<b> БОТ УДАЛЯЕТ СООБЩЕНИЯ С ПАРОЛЯМИ ЧЕРЕЗ 10 СЕКУНД</b>\n"
-"\n"
-"Ускорьте процесс с помощью Google Authenticator!\n"
-"\n"
-"Нажми для подробной информации /g_auth_info\n"
-"\n"
 
 #: bot/handlers/decoding.py:41 bot/handlers/decoding.py:65
 #: bot/handlers/decoding.py:103
@@ -119,7 +104,7 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: bot/handlers/decoding.py:77 bot/handlers/decoding.py:82
-#: bot/handlers/encoding.py:225 bot/handlers/encoding.py:230
+#: bot/handlers/encoding.py:224 bot/handlers/encoding.py:229
 msgid "INVALID FILE"
 msgstr "Неподдерживаемый файл"
 
@@ -132,7 +117,7 @@ msgstr ""
 "Пожалуйста, настройте его заново /g_auth_info"
 
 #: bot/handlers/decoding.py:136 bot/handlers/decoding.py:139
-#: bot/handlers/setup_gauth.py:136 bot/handlers/setup_gauth.py:147
+#: bot/handlers/setup_gauth.py:134 bot/handlers/setup_gauth.py:145
 msgid "Code is incorrect, try again or /cancel"
 msgstr "Код неверный, попробуйте снова или отмените /cancel"
 
@@ -144,8 +129,8 @@ msgstr ""
 "Ваш расшифрованный пароль находится внутри кавычек \n"
 "'<code>{password}</code>'"
 
-#: bot/handlers/encoding.py:64 bot/handlers/encoding.py:134
-#: bot/handlers/encoding.py:179
+#: bot/handlers/encoding.py:63 bot/handlers/encoding.py:133
+#: bot/handlers/encoding.py:178
 msgid ""
 "Error has occurred... Too long phrase. Try to enter a phrase under 400 "
 "characters."
@@ -153,12 +138,13 @@ msgstr ""
 "Ошибочка произошла... Слишком длинный пароль. постарайтесь ввести пароль "
 "длиной до 400 символов."
 
-#: bot/handlers/encoding.py:68 bot/handlers/encoding.py:139
-#: bot/handlers/encoding.py:183
+#: bot/handlers/encoding.py:67 bot/handlers/encoding.py:138
+#: bot/handlers/encoding.py:182
 msgid "Master Password not found."
 msgstr "Мастер пароль был не найден, попробуйте заново"
 
-#: bot/handlers/encoding.py:74
+#: bot/handlers/encoding.py:73 bot/handlers/encoding.py:147
+#: bot/handlers/encoding.py:192
 msgid ""
 "<code>----------------------------\n"
 "ENCRYPTION STARTS HERE\n"
@@ -192,13 +178,13 @@ msgstr ""
 "Сохраните это сообщение где угодно и перешлите боту когда захотите "
 "расшифровать свой пароль."
 
-#: bot/handlers/encoding.py:103 bot/handlers/setup_gauth.py:18
+#: bot/handlers/encoding.py:102 bot/handlers/setup_gauth.py:17
 msgid ""
 "To encrypt your phrase/file you need to enter a master password each time"
 " you want to encrypt or decrypt, or you can enable <b>Google "
 "Authenticator</b> and enter one-time codes from your phone <b>only to "
-"decrypt</b>  your passwords. (Master password will be kept in database "
-"then) \n"
+"decrypt</b>  your passwords. \n"
+"(Master password will be kept in database then) \n"
 "\n"
 "Please make your choice (you can change it later with command "
 "/reset_google_auth\n"
@@ -211,52 +197,16 @@ msgstr ""
 "\n"
 "Сделайте свой выбор (вы сможете позже отключать эту функцию с помощью "
 "команды /reset_google_auth )\n"
-"        "
 
-#: bot/handlers/encoding.py:111 bot/handlers/setup_gauth.py:26
+#: bot/handlers/encoding.py:110 bot/handlers/setup_gauth.py:24
 msgid "Setup"
 msgstr "Начать настройку"
 
-#: bot/handlers/encoding.py:130
+#: bot/handlers/encoding.py:129
 msgid "Password not found."
 msgstr "Пароль не был найден, попробуйте заново"
 
-#: bot/handlers/encoding.py:148 bot/handlers/encoding.py:193
-msgid ""
-"<code>----------------------------\n"
-"ENCRYPTION STARTS HERE\n"
-"----------------------------\n"
-"{passw}\n"
-"----------------------------\n"
-"ENCRYPTION ENDS HERE\n"
-"----------------------------\n"
-"CODE\n"
-"{code}\n"
-"----------------------------\n"
-"</code>\n"
-"\n"
-"Hint: {hint}\n"
-"Save this message wherever you want and forward it to the bot should you "
-"need to decode it.\n"
-"    "
-msgstr ""
-"<code>----------------------------\n"
-"ENCRYPTION STARTS HERE\n"
-"----------------------------\n"
-"{passw}\n"
-"----------------------------\n"
-"ENCRYPTION ENDS HERE\n"
-"----------------------------\n"
-"CODE\n"
-"{code}\n"
-"----------------------------\n"
-"</code>\n"
-"\n"
-"Подсказка: {hint}\n"
-"Сохраните это сообщение где угодно и перешлите боту когда захотите "
-"расшифровать свой пароль."
-
-#: bot/handlers/encoding.py:236
+#: bot/handlers/encoding.py:235
 msgid ""
 "\n"
 "----------------------------\n"
@@ -285,32 +235,32 @@ msgstr ""
 "\n"
 "Подсказка: {hint}\n"
 
-#: bot/handlers/main_handlers.py:21 bot/handlers/main_handlers.py:51
-#: bot/handlers/main_handlers.py:105
+#: bot/handlers/main_handlers.py:18 bot/handlers/main_handlers.py:48
+#: bot/handlers/main_handlers.py:102 bot/handlers/main_handlers.py:108
 msgid "🔒 Encode"
 msgstr "🔒 Зашифровать"
 
-#: bot/handlers/main_handlers.py:22 bot/handlers/main_handlers.py:52
+#: bot/handlers/main_handlers.py:19 bot/handlers/main_handlers.py:49
 msgid "🔑 Decode"
 msgstr "🔑 Расшифровать"
 
-#: bot/handlers/main_handlers.py:23 bot/handlers/main_handlers.py:53
+#: bot/handlers/main_handlers.py:20 bot/handlers/main_handlers.py:50
 msgid "ℹ️How to use"
 msgstr "ℹ️Как использовать"
 
-#: bot/handlers/main_handlers.py:24 bot/handlers/main_handlers.py:54
+#: bot/handlers/main_handlers.py:21 bot/handlers/main_handlers.py:51
 msgid "🇬🇧 Set language"
 msgstr "🇷🇺 Сменить язык"
 
-#: bot/handlers/main_handlers.py:25 bot/handlers/main_handlers.py:55
+#: bot/handlers/main_handlers.py:22 bot/handlers/main_handlers.py:52
 msgid "🔐 Two step verification"
 msgstr "🔐 Двухэтапная верификация"
 
-#: bot/handlers/main_handlers.py:26 bot/handlers/main_handlers.py:56
+#: bot/handlers/main_handlers.py:23 bot/handlers/main_handlers.py:53
 msgid "📝 Write a review"
 msgstr "📝 Оставить отзыв"
 
-#: bot/handlers/main_handlers.py:31
+#: bot/handlers/main_handlers.py:28
 msgid ""
 "\n"
 "Hello, <b>{}</b>\n"
@@ -320,7 +270,7 @@ msgid ""
 "You can choose your language using command /set_language\n"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:60
+#: bot/handlers/main_handlers.py:57
 msgid ""
 "Language has changed to 🇬🇧<b>EN</b>\n"
 "\n"
@@ -340,7 +290,7 @@ msgstr ""
 "Начните использовать этого бота: /info\n"
 " "
 
-#: bot/handlers/main_handlers.py:74
+#: bot/handlers/main_handlers.py:71
 msgid ""
 "\n"
 "<b>{users}</b> users are using this bot. \n"
@@ -355,21 +305,21 @@ msgstr ""
 "<b>{messages}</b> сообщений обработано.\n"
 "        "
 
-#: bot/handlers/main_handlers.py:89
+#: bot/handlers/main_handlers.py:86
 msgid ""
 "\n"
 "Hello, <b>{}</b>\n"
 "Firstly, let's choose your language\n"
 msgstr ""
 
-#: bot/handlers/main_handlers.py:107
+#: bot/handlers/main_handlers.py:104
 msgid ""
 "\n"
 "Looks like the input is invalid...\n"
 "To decode your password - forward the message with encoded password you "
 "received from bot.\n"
 "<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>\n"
-"Perhaps you wanted to encrypt this message? Click <b> Encrypt </b>."
+"Perhaps you wanted to encrypt this message? Click "
 msgstr ""
 "\n"
 "Похоже, что вы ввели неверный запрос...\n"
@@ -378,9 +328,16 @@ msgstr ""
 "от бота с закодированным паролем. \n"
 "<a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>\n"
 "\n"
-"Возможно вы хотели зашифровать это сообщение? Нажмите <b>зашифровать</b>."
+"Возможно вы хотели зашифровать это сообщение? Нажмите "
 
-#: bot/handlers/main_handlers.py:120 bot/handlers/main_handlers.py:125
+#: bot/handlers/main_handlers.py:109
+msgid ""
+"\n"
+"\n"
+"Or setup the language again /set_language"
+msgstr "\n\nИли смените язык командой /set_language"
+
+#: bot/handlers/main_handlers.py:118 bot/handlers/main_handlers.py:123
 msgid "Seems like you have an unfinished business..."
 msgstr "Похоже, что вы не закончили что-то... (прочитайте предыдущие сообщения)"
 
@@ -442,15 +399,15 @@ msgid ""
 "<b>{}</b>\n"
 msgstr ""
 
-#: bot/handlers/setup_gauth.py:57 bot/handlers/setup_gauth.py:94
+#: bot/handlers/setup_gauth.py:55 bot/handlers/setup_gauth.py:92
 msgid "That is done"
 msgstr "Готово"
 
-#: bot/handlers/setup_gauth.py:73 bot/handlers/setup_gauth.py:110
+#: bot/handlers/setup_gauth.py:71 bot/handlers/setup_gauth.py:108
 msgid "You have already received the Google Authenticator code"
 msgstr "Вы уже настраивали Google Authenticator"
 
-#: bot/handlers/setup_gauth.py:76
+#: bot/handlers/setup_gauth.py:74
 msgid ""
 "\n"
 "Please ensure you have the app installed.\n"
@@ -474,17 +431,17 @@ msgstr ""
 "Нажмите продолжить когда закончите, после того как получите код - "
 "запишите его где нибудь."
 
-#: bot/handlers/setup_gauth.py:83
+#: bot/handlers/setup_gauth.py:81
 msgid "Continue"
 msgstr "Продолжить"
 
-#: bot/handlers/setup_gauth.py:99
+#: bot/handlers/setup_gauth.py:97
 msgid "Please press on button to continue or /cancel"
 msgstr ""
 "Пожалуйста, нажмите продолжить для того, чтобы настроить, или нажмите "
 "отмена /cancel"
 
-#: bot/handlers/setup_gauth.py:114
+#: bot/handlers/setup_gauth.py:112
 msgid ""
 "\n"
 "You will receive a recovery code and a link below.\n"
@@ -494,7 +451,7 @@ msgstr ""
 "Вы получите код для восстановления ниже .\n"
 "<b>СООБЩЕНИЕ БУДЕТ УДАЛЕНО ПОСЛЕ ПОДТВЕРЖДЕНИЯ</b>\n"
 
-#: bot/handlers/setup_gauth.py:122
+#: bot/handlers/setup_gauth.py:120
 msgid ""
 "Please enter the code from the Google Authenticator\n"
 "Pay attention that it updates every 30 sec."
@@ -502,18 +459,7 @@ msgstr ""
 "Пожалуйста введите код который вы получили в Google Authenticator\n"
 "Обратите внимание, что код обновляется каждые 30 сек"
 
-#: bot/handlers/setup_gauth.py:144
+#: bot/handlers/setup_gauth.py:142
 msgid "Confirmation successful, you can proceed. /encode"
 msgstr "Успешно подтверждено, можете продолжать. /encode"
-
-#~ msgid ""
-#~ "\n"
-#~ "Hello, <b>{}</b>\n"
-#~ "This bot is designed to encrypt "
-#~ "your passwords so you can store "
-#~ "them publicly, for example in your "
-#~ "<code>Telegram saved messages.</code>\n"
-#~ "\n"
-#~ "Firstly, let's choose your language\n"
-#~ msgstr ""
 

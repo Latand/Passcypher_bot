@@ -20,6 +20,7 @@ async def encode_m(message: types.Message, state: FSMContext):
 Please enter your master password.
 You can make everything faster with Google Authenticator! 
 Press /g_auth_info
+
 """))
         await Encode.MASTER_PASSWORD.set()
     else:

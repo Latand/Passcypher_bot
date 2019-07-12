@@ -15,8 +15,8 @@ from bot.middlewares.language_middleware import setup_middleware
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
 bot = Bot(token=TOKEN, loop=loop, parse_mode="HTML")
-storage = MemoryStorage()
-# storage = RedisStorage2()
+# storage = MemoryStorage()
+storage = RedisStorage2()
 dp = Dispatcher(bot, storage=storage)
 
 

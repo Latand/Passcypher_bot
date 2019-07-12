@@ -45,12 +45,12 @@ async def change_language(call: types.CallbackQuery, state: FSMContext):
     language = call.data.split()[1]
     set_language(chat_id, language)
     menu = ListOfButtons(
-        text=[_("🔒 Encode"),
-              _("🔑 Decode"),
-              _("ℹ️How to use"),
-              _("🇬🇧 Set language"),
-              _("🔐 Two step verification"),
-              _("📝 Write a review")],
+        text=[_("🔒 Encode", locale=language),
+              _("🔑 Decode", locale=language),
+              _("ℹ️How to use", locale=language),
+              _("🇬🇧 Set language", locale=language),
+              _("🔐 Two step verification", locale=language),
+              _("📝 Write a review", locale=language)],
         align=[2, 2, 2]
     ).reply_keyboard
 
@@ -61,7 +61,7 @@ async def change_language(call: types.CallbackQuery, state: FSMContext):
 <b>{passwords}</b> passwords encrypted.
 <b>{messages}</b> messages received.
 
-Start using this bot: /info""").format(**get_counters()),
+Start using this bot: /info""", locale=language).format(**get_counters()),
                            reply_markup=menu)
 
 
@@ -105,7 +105,8 @@ async def unknown(message: types.Message, state: FSMContext):
 Looks like the input is invalid...
 To decode your password - forward the message with encoded password you received from bot.
 <a href= 'https://telegra.ph/file/a9f99684284a92eb2a6a0.png'>ᅠ</a>
-Perhaps you wanted to encrypt this message? Click <b> Encrypt </b>."""),
+Perhaps you wanted to encrypt this message? Click """) + _("🔒 Encode") +
+                        _("\n\nOr setup the language again /set_language"),
                         reply_markup=ListOfButtons(
                             text=[text],
                             callback=[f"encrypt_saved"]

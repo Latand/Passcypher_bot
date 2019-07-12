@@ -14,13 +14,12 @@ from bot.aiogram_help.inline_button import ListOfButtons
 async def info(message: types.Message):
     increase_message_counter()
     chat_id = message.chat.id
-    text = _("""To encrypt your phrase/file you need to enter a master password each time you want to encrypt or decrypt, or\
- you can enable <b>Google Authenticator</b> and enter one-time codes from your phone <b>only to decrypt</b>\
-  your passwords. \
-(Master password will be kept in database then) 
-
-Please make your choice (you can change it later with command /reset_google_auth
-""")
+    text = _(
+        "To encrypt your phrase/file you need to enter a master password each time you want to encrypt or decrypt, or"
+        " you can enable <b>Google Authenticator</b> and enter one-time codes from your phone <b>only to decrypt</b>"
+        "  your passwords. \n"
+        "(Master password will be kept in database then) \n\n"
+        "Please make your choice (you can change it later with command /reset_google_auth\n")
     await bot.send_message(chat_id, text, reply_markup=ListOfButtons(
         text=[_("Setup")],
         callback=["g_auth_setup"]).inline_keyboard)
