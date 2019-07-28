@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: database
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'main'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+    network_mode: "host"
+
+    env_file:
+      - ".env"
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../data/redis:/data
+    entrypoint: redis-server --appendonly yes
+    restart: always
+
+  tgbot:
+    container_name: pcypher
+    build: .
+    volumes:
+      - .:/src
+    command: python app.py
+    restart: always
+
+    network_mode: "host"
+
+    env_file:
+      - ".env"
+
+
+# Names our volume
+volumes:
+  my-db:
