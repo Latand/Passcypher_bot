@@ -60,5 +60,7 @@ Android link https://play.google.com/store/apps/details?id=com.google.android.ap
 
 
 After the bot successfully started press `Ctrl+Z` to exit docker console
+
 Whenever you want to enter it, go to the directory and enter `docker-compose up`
+
 To stop the docker, enter `docker-compose down` or press `Ctrl+C` if you're inside.
