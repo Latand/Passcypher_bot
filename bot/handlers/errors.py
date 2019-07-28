@@ -1,5 +1,5 @@
 import logging
-from load_all import dp
+from bot.load_all import dp
 
 
 @dp.errors_handler()

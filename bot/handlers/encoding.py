@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
-from load_all import bot, dp, _
+from bot.load_all import bot, dp, _
 from bot.aiogram_help.keyboard_maker import ListOfButtons
 from bot.aiogram_help.states import Encode
 from bot.utils.encode import encode

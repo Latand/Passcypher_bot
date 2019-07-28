@@ -5,7 +5,7 @@ from aiogram import executor
 
 from config import (WEBHOOK_URL, Reviews_state,
                     Webhook_state, WEBAPP_HOST, WEBAPP_PORT)
-from load_all import bot
+from bot.load_all import bot
 
 
 async def on_startup(dp):

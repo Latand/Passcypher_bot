@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 import config
-from load_all import bot, dp, logging, _
+from bot.load_all import bot, dp, logging, _
 from bot.aiogram_help.filters import Buttons
 from bot.aiogram_help.states import Other
 from bot.utils.some_functions import increase_message_counter
