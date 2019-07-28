@@ -1,5 +1,5 @@
 import logging
-from app import dp
+from load_all import dp
 
 
 @dp.errors_handler()

@@ -5,7 +5,7 @@ from asyncio import sleep
 from aiogram import types
 from aiogram.utils.exceptions import BotBlocked, ChatNotFound, UserDeactivated
 
-from app import bot, dp
+from load_all import bot, dp
 from bot.aiogram_help.filters import IsAdmin, admin_id
 from bot.utils.some_functions import increase_message_counter, sql
 

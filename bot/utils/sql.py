@@ -131,24 +131,33 @@ class Mysql(object):
                     ids = cursor.lastrowid
             except self.connection.OperationalError as err:
                 print(f"Operational error. restart {command}\n{kwargs}\n{err}")
-                self.connection.close()
-                self.connect()
-                cursor = self.connection.cursor()
-                cursor.execute(command, (*args,))
+                return
+                # self.connection.close()
+                # self.connect()
+                # cursor = self.connection.cursor()
+                # cursor.execute(command, (*args,))
             except self.connection.InterfaceError as err:
                 print("InterfaceError (bad command), "
                       "reconnecting, executing", err)
+                return
 
-                self.connection.close()
-                self.connect()
-                cursor = self.connection.cursor()
-                cursor.execute(command, (*args,))
+                # self.connection.close()
+                # self.connect()
+                # cursor = self.connection.cursor()
+                # cursor.execute(command, (*args,))
             except self.connection.ProgrammingError as err:
                 print(f"Programming error (bad command), {err} \n{[command, kwargs, args]} ")
+                return
             except self.connection.IntegrityError as err:
                 print("IntegrityError, dublicate primary key? ", err)
+                return
+
             except Exception as err:
                 print(f"Other error. {command}\n {kwargs}, \n{err}")
+                return
+
+            finally:
+                print(f"CONFIG {self.params}")
 
             if select:
                 values = cursor.fetchall()

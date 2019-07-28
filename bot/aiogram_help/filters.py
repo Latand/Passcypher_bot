@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
 
-from app import _
+from load_all import _
 from config import admin_id
 
 

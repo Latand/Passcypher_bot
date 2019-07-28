@@ -3,3 +3,4 @@ pyotp
 pypng
 pyqrcode
 pymysql
+aioredis

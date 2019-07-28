@@ -1,6 +1,6 @@
 from aiogram import types
 
-from app import dp, _
+from load_all import dp, _
 from bot.utils.some_functions import increase_message_counter
 
 

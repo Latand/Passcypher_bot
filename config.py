@@ -1,16 +1,15 @@
 import os
-from pathlib import Path
 import secrets
+from pathlib import Path
 
 TOKEN = os.environ.get("BOT_TOKEN_CYPHER")
 sql_config = {
-    "host": os.environ.get("SQL_HOST"),
-    "user": os.environ.get("SQL_USER"),
-    "password": os.environ.get("SQL_PASS"),
-    "db": os.environ.get("SQL_DB"),
+    "host": "127.0.0.1",
+    "user": os.getenv("MYSQL_USER"),
+    "password": os.getenv("MYSQL_PASSWORD"),
+    "db": "main",
     "charset": 'utf8mb4'
 }
-
 I18N_DOMAIN = 'pcypher'
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / 'locales'

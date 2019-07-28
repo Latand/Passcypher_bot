@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from app import bot, dp, _
+from load_all import bot, dp, _
 from bot.aiogram_help.filters import Buttons
 from bot.aiogram_help.states import Encode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth, has_g_auth

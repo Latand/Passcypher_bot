@@ -6,7 +6,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BadRequest
 
-from app import bot, dp, _
+from load_all import bot, dp, _
 from bot.aiogram_help.states import Decode
 from bot.utils.decode import decode
 from bot.utils.google_auth import enabled_g_auth, get_google_auth, has_g_auth, verify

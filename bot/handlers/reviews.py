@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 import config
-from app import bot, dp, logging, throttling_message, _
+from load_all import bot, dp, logging, _
 from bot.aiogram_help.filters import Buttons
 from bot.aiogram_help.states import Other
 from bot.utils.some_functions import increase_message_counter
@@ -88,8 +88,6 @@ async def cancel_or_publish(call: types.CallbackQuery, state: FSMContext):
         await state.finish()
         return
     elif call.data == "publish":
-        if await throttling_message(chat_id):
-            return
         advice = (await state.get_data()).get("advice")
         await bot.send_message(config.review_channel, _("""
 #Reviews Post:

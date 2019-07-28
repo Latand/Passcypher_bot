@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.dispatcher import FSMContext
 from aiogram.utils.exceptions import CantParseEntities, MessageNotModified
 
-from app import bot, dp, _
+from load_all import bot, dp, _
 from bot.utils.some_functions import increase_message_counter, get_counters, check_if_new_user, set_language
 from bot.aiogram_help.keyboard_maker import ListOfButtons
 

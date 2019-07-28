@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-12 17:38+0100\n"
+"POT-Creation-Date: 2019-07-28 14:56+0100\n"
 "PO-Revision-Date: 2019-07-07 09:20+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: bot/handlers/reviews.py:94
+#: bot/handlers/reviews.py:92
 msgid ""
 "\n"
 "#Reviews Post:\n"
