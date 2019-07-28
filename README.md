@@ -42,14 +42,6 @@ App store link https://itunes.apple.com/gb/app/google-authenticator/id388497605?
 <br>
 Android link https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB
 
-# gitignore
-
-I've hidden a file with functions containing a small key which enables the extra level of security by a master password.
-However, you can rename "secret.example.py" to "secret.py" and it will work
-
-# Important!
-You will need <b>Python 3.7+</b> to use this bot!
-
 # How to use (WEBHOOK for advanced usage)
 
 1. Clone the repository
