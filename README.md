@@ -13,6 +13,9 @@ https://telegra.ph/How-to-Use-Passcypher-Instruction-EN-06-02<br>
 One more link is the instruction for Google Authenticator!
 https://telegra.ph/Passcypher-Google-Authenticator-06-02
 
+# New Massive Update 28/07/2019
+You can create your bot with just one command! Docker included!
+
 # New Features 12/07/2019
 1. Added support i18n for translations
 2. Made the use of standard filters of aiogram
@@ -50,24 +53,15 @@ You will need <b>Python 3.7+</b> to use this bot!
 # How to use (WEBHOOK for advanced usage)
 
 1. Clone the repository
-2. Install the MYSQL on your server
-3. Amend the config (and add needed variables to environment variables):
-    -  Add bot token
-    -  Your webhook host (you need to have the ssl enabled on it) 
-    -  Bot port - port which receives the requests from telegram (For example, a nginx webserver redirecting requests from Telegram to 3000 port)
-    -  Mysql database: user, password, db name
-4. Install requirements <code>pip install -r requirements.txt</code>
-5. <s>Run <code>python3.7 install.py</code> and follow the instructions</s> (Needs update)
-6. Run <code>python3.7 main_bot.py</code>
+2. Amend env file and rename to .env
+3. Amend the config.py:
+    -  Change the Webhook state to True
+4. Set up nginx redirection (and open port for the app)
+5. Run sudo bash installation.sh
  
  
 # How to use (POLLING)
 
 1. Clone the repository
-2. Install the MYSQL on your server
-3. Install requirements <code>pip install -r requirements.txt</code>
-4. <s>Run <code>python3.7 install.py</code> and follow the instructions</s> (Needs update)
-5. Run <code>python3.7 app.py</code>
- 
-# TODO
-1. Configure the Docker 
+2. Amend env file and rename to .env
+3. Run sudo bash installation.sh
