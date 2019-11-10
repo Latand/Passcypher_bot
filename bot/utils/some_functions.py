@@ -9,7 +9,11 @@ def increase_message_counter(password=False):
 
 def get_counters():
     users = sql.select(what="COUNT(*)", where="users")
-    messages, passwords = sql.select(where="Statistics", what=["messages", "passwords"], condition={"id": 0})[0]
+    stats = sql.select(where="Statistics", what=["messages", "passwords"], condition={"id": 0})
+    if stats:
+        messages, passwords = stats[0]
+    else:
+        messages, passwords = 0, 0
     return {"users": users, "messages": messages, "passwords": passwords}
 
 
